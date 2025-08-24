@@ -1,0 +1,150 @@
+# VS Code Dark+ 主题配置
+# 基于 VS Code 默认深色主题
+name: 'VS Code Dark+'
+id: 'vscode-dark'
+mode: 'dark'
+description: 'Professional dark theme with modern interface'
+version: '1.0.0'
+author: 'AionUi Team'
+
+# 代码高亮主题
+codeHighlight:
+  # 基础样式
+  background: '#1e1e1e'
+  color: '#d4d4d4'
+  fontFamily: 'SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace'
+  fontSize: '14px'
+  lineHeight: '1.45'
+
+  # 语法元素
+  keyword: '#569cd6' # 关键字
+  string: '#ce9178' # 字符串
+  comment: '#6a9955' # 注释
+  number: '#b5cea8' # 数字
+  function: '#dcdcaa' # 函数
+  variable: '#9cdcfe' # 变量
+  operator: '#d4d4d4' # 操作符
+  type: '#4ec9b0' # 类型
+  constant: '#4fc1ff' # 常量
+  punctuation: '#d4d4d4' # 标点
+
+  # 进阶元素
+  className: '#4ec9b0'
+  property: '#92c5f7'
+  tag: '#569cd6'
+  attr: '#92c5f7'
+
+  # 界面样式
+  headerBackground: '#2d2d30'
+  headerColor: '#cccccc'
+  lineNumberColor: '#858585'
+  selectedLineBackground: '#094771'
+  borderColor: '#3e3e42'
+  scrollbarColor: '#3e3e42'
+  iconColor: '#cccccc'
+  inlineCodeBackground: '#2d2d30'
+  inlineCodeBorder: '#3e3e42'
+
+# 全局应用样式 (根据思路.md中的样式集定义)
+appStyles:
+  # 左侧菜单栏样式
+  o-slider:
+    backgroundColor: '#252526'
+    color: '#cccccc'
+    borderRight: '1px solid #3e3e42'
+
+  # 右侧内容区域样式
+  o-main:
+    backgroundColor: '#1e1e1e'
+    color: '#d4d4d4'
+
+  # 左侧菜单样式
+  o-slider-menu:
+    color: '#cccccc'
+    backgroundColor: 'transparent'
+    padding: '8px 16px'
+    borderRadius: '6px'
+    margin: '2px 8px'
+    cursor: 'pointer'
+    transition: 'all 0.2s ease'
+
+  # 左侧菜单项hover样式
+  o-slider-menu-hover:
+    color: '#ffffff'
+    backgroundColor: '#3e3e42'
+
+  # 左侧菜单项选中样式
+  o-slider-menu-active:
+    color: '#569cd6'
+    backgroundColor: '#094771'
+    fontWeight: '600'
+
+  # 聊天消息样式 - 用户消息
+  o-chat-message-user:
+    backgroundColor: '#0e639c'
+    color: '#ffffff'
+    border: '1px solid #1177bb'
+    borderRadius: '12px'
+    padding: '12px 16px'
+    marginBottom: '8px'
+    maxWidth: '80%'
+    marginLeft: 'auto'
+
+  # 聊天消息样式 - 助手消息
+  o-chat-message-assistant:
+    backgroundColor: '#2d2d30'
+    color: '#d4d4d4'
+    border: '1px solid #3e3e42'
+    borderRadius: '12px'
+    padding: '12px 16px'
+    marginBottom: '8px'
+    maxWidth: '80%'
+    marginRight: 'auto'
+
+  # 聊天消息样式 - 系统消息
+  o-chat-message-system:
+    backgroundColor: '#433519'
+    color: '#ffcc02'
+    border: '1px solid #5a4a1a'
+    borderRadius: '8px'
+    padding: '8px 12px'
+    marginBottom: '8px'
+    fontSize: '14px'
+    textAlign: 'center'
+
+  # 右侧工作区样式
+  o-workspace:
+    backgroundColor: '#1e1e1e'
+    color: '#d4d4d4'
+    border: '1px solid #3e3e42'
+    borderRadius: '8px'
+    padding: '16px'
+    margin: '8px'
+
+  # 设置中分组框样式
+  o-setting-group:
+    backgroundColor: '#2d2d30'
+    color: '#d4d4d4'
+    border: '1px solid #3e3e42'
+    borderRadius: '8px'
+    padding: '16px'
+    marginBottom: '16px'
+
+  # 系统主题色 (支持arco-design)
+  o-primary-color:
+    color: '#569cd6'
+    '--primary-6': '#569cd6'
+    '--primary-5': '#4a8bc2'
+    '--primary-7': '#316ac5'
+
+  # 图标颜色
+  o-icon-color:
+    color: '#cccccc'
+    fill: '#cccccc'
+
+# 主题元数据
+metadata:
+  createdAt: '2025-08-23T16:39:00Z'
+  updatedAt: '2025-08-23T16:39:00Z'
+  tags: ['dark', 'vscode', 'professional', 'modern']
+  basedOn: 'VS Code'
