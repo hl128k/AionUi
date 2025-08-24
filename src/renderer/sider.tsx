@@ -12,18 +12,18 @@ const Sider: React.FC = () => {
   const navigate = useNavigate();
   const isSettings = pathname.startsWith('/settings');
   return (
-    <div className='size-full flex flex-col'>
+    <div className='o-slider-menu size-full flex flex-col'>
       {isSettings ? (
         <SettingsSider></SettingsSider>
       ) : (
         <>
           <div
-            className='flex items-center justify-start gap-10px px-12px py-8px hover:bg-#f3f4f6 rd-0.5rem mb-8px cursor-pointer group'
+            className='o-slider-menu flex items-center justify-start gap-10px px-12px py-8px rd-0.5rem mb-8px cursor-pointer group'
             onClick={() => {
               navigate('/guid');
             }}
           >
-            <Plus theme='outline' size='24' fill='#333' className='flex' />
+            <Plus theme='outline' size='24' className='o-icon-color flex' />
             <span className='collapsed-hidden font-bold'>{t('conversation.welcome.newConversation')}</span>
           </div>
           <ChatHistory></ChatHistory>
@@ -34,9 +34,9 @@ const Sider: React.FC = () => {
           if (isSettings) return navigate('/guid');
           navigate('/settings');
         }}
-        className='flex items-center justify-start gap-10px px-12px py-8px hover:bg-#f3f4f6 rd-0.5rem mb-8px cursor-pointer'
+        className='o-slider-menu flex items-center justify-start gap-10px px-12px py-8px rd-0.5rem mb-8px cursor-pointer'
       >
-        {isSettings ? <ArrowCircleLeft className='flex' theme='outline' size='24' fill='#333' /> : <SettingTwo className='flex' theme='outline' size='24' fill='#333' />}
+        {isSettings ? <ArrowCircleLeft className='o-icon-color flex' theme='outline' size='24' /> : <SettingTwo className='o-icon-color flex' theme='outline' size='24' />}
         <span className='collapsed-hidden'>{isSettings ? t('common.back') : t('common.settings')}</span>
       </div>
     </div>

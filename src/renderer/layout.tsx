@@ -39,7 +39,7 @@ const useDebug = () => {
   return { onClick };
 };
 
-const Layout: React.FC<{
+const MainLayout: React.FC<{
   sider: React.ReactNode;
 }> = ({ sider }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -50,12 +50,12 @@ const Layout: React.FC<{
         collapsedWidth={64}
         collapsed={collapsed}
         width={250}
-        className={classNames('!bg-#f2f3f5', {
+        className={classNames({
           collapsed: collapsed,
         })}
       >
         <ArcoLayout.Header
-          className={classNames('flex items-center justify-start p-16px gap-12px pl-20px', {
+          className={classNames('o-slider-header flex items-center justify-start p-16px gap-12px pl-20px', {
             'cursor-pointer group ': collapsed,
           })}
         >
@@ -78,20 +78,20 @@ const Layout: React.FC<{
             </svg>
           </div>
           <div className=' flex-1 text-20px collapsed-hidden font-bold'>AionUi</div>
-          <MenuFold className='cursor-pointer !collapsed-hidden flex' theme='outline' size='24' fill='#86909C' strokeWidth={3} onClick={() => setCollapsed(true)} />
+          <MenuFold className='o-icon-color cursor-pointer !collapsed-hidden flex' theme='outline' size='24' strokeWidth={3} onClick={() => setCollapsed(true)} />
           {collapsed && (
-            <div onClick={() => setCollapsed(false)} className='group-hover:opacity-100 absolute bg-#f2f3f5 left-8px top-7px transition-all duration-150 p-10px opacity-0'>
-              <MenuUnfold className='cursor-pointer flex' size='24' fill='#86909C' strokeWidth={3} />
+            <div onClick={() => setCollapsed(false)} className='o-slider-header group-hover:opacity-100 absolute left-8px top-7px transition-all duration-150 p-10px opacity-0'>
+              <MenuUnfold className='o-icon-color cursor-pointer flex' size='24' strokeWidth={3} />
             </div>
           )}
         </ArcoLayout.Header>
-        <ArcoLayout.Content className='h-[calc(100%-72px-16px)] p-8px'>{sider}</ArcoLayout.Content>
+        <ArcoLayout.Content className='o-slider-content h-[calc(100%-72px-16px)] p-8px'>{sider}</ArcoLayout.Content>
       </ArcoLayout.Sider>
-      <ArcoLayout.Content>
+      <ArcoLayout.Content className='o-main'>
         <Outlet></Outlet>
       </ArcoLayout.Content>
     </ArcoLayout>
   );
 };
 
-export default Layout;
+export default MainLayout;

@@ -1,5 +1,5 @@
 import FlexFullContainer from '@/renderer/components/FlexFullContainer';
-import { Gemini, Info, LinkCloud, System } from '@icon-park/react';
+import { ColorCard, Gemini, Info, LinkCloud, System } from '@icon-park/react';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,11 @@ const SettingsSider: React.FC = () => {
         path: 'system',
       },
       {
+        label: t('settings.themeSettings'),
+        icon: <ColorCard />,
+        path: 'themes',
+      },
+      {
         label: t('settings.about'),
         icon: <Info />,
         path: 'about',
@@ -41,8 +46,8 @@ const SettingsSider: React.FC = () => {
         return (
           <div
             key={item.path}
-            className={classNames('hover:bg-#EBECF1 px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
-              '!bg-#E5E7F0 ': isSelected,
+            className={classNames('o-slider-menu px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
+              'o-slider-menu-active': isSelected,
             })}
             onClick={() => {
               navigate(`/settings/${item.path}`);

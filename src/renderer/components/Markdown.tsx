@@ -11,7 +11,6 @@ import rehypeKatex from 'rehype-katex';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
-// import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 import { ipcBridge } from '@/common';
 import { Down, Up } from '@icon-park/react';
@@ -19,6 +18,7 @@ import { theme } from '@office-ai/platform';
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useCodeHighlightTheme } from '../themes';
 
 const formatCode = (code: string) => {
   const content = String(code).replace(/\n$/, '');
@@ -42,61 +42,52 @@ const logicRender = <T, F>(condition: boolean, trueComponent: T, falseComponent?
 
 function CodeBlock(props: any) {
   const [fold, setFlow] = useState(false);
+  const { codeHighlight, syntaxHighlighterStyle, inlineCodeStyle, codeBlockHeaderStyle } = useCodeHighlightTheme();
+
   return useMemo(() => {
     const { children, className, node, hiddenCodeCopyButton, ...rest } = props;
     const match = /language-(\w+)/.exec(className || '');
     const language = match?.[1] || 'text';
+
+    // 内联代码处理
     if (!String(children).includes('\n')) {
       return (
-        <code
-          {...rest}
-          className={className}
-          style={{
-            backgroundColor: '#f1f1f1',
-            padding: '2px 4px',
-            margin: '0 4px',
-            borderRadius: '4px',
-            border: '1px solid',
-            borderColor: '#ddd',
-          }}
-        >
+        <code {...rest} className={className} style={inlineCodeStyle}>
           {children}
         </code>
       );
     }
+
+    // 代码块处理
     return (
       <div style={props.codeStyle}>
         <div
           style={{
+            ...codeBlockHeaderStyle,
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
             alignItems: 'center',
-            backgroundColor: '#dcdcdc', // "rgb(50, 50, 50)",
-            borderTopLeftRadius: '0.3rem',
-            borderTopRightRadius: '0.3rem',
-            borderBottomLeftRadius: '0',
-            borderBottomRightRadius: '0',
           }}
         >
           <span
             style={{
               textDecoration: 'none',
-              color: 'gray',
+              color: codeHighlight?.headerColor || 'gray',
               padding: '2px',
               margin: '2px 10px 0 10px',
             }}
           >
-            {'<' + language.toLocaleLowerCase() + '>'}
+            {'<' + language.toLowerCase() + '>'}
           </span>
-          <div style={{ marginRight: 10, paddingTop: 2 }}>{logicRender(!fold, <Up theme='outline' size='24' style={{ cursor: 'pointer' }} fill='gray' onClick={() => setFlow(true)} />, <Down theme='outline' size='24' style={{ cursor: 'pointer' }} fill='gray' onClick={() => setFlow(false)} />)}</div>
+          <div style={{ marginRight: 10, paddingTop: 2 }}>{logicRender(!fold, <Up theme='outline' size='24' style={{ cursor: 'pointer' }} fill={codeHighlight?.iconColor || 'gray'} onClick={() => setFlow(true)} />, <Down theme='outline' size='24' style={{ cursor: 'pointer' }} fill={codeHighlight?.iconColor || 'gray'} onClick={() => setFlow(false)} />)}</div>
         </div>
         {logicRender(
           !fold,
           <SyntaxHighlighter
             children={formatCode(children)}
             language={language}
-            // style={coy}
+            style={syntaxHighlighterStyle}
             PreTag='div'
             customStyle={{
               marginTop: '0',
@@ -111,7 +102,7 @@ function CodeBlock(props: any) {
         )}
       </div>
     );
-  }, [props]);
+  }, [props, codeHighlight, syntaxHighlighterStyle, inlineCodeStyle, codeBlockHeaderStyle, fold]);
 }
 
 const createInitStyle = () => {
