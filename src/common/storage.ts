@@ -29,6 +29,15 @@ export interface IConfigStorageRefer {
   'model.config': IModel[];
   language: string;
   theme: string;
+  'theme.config': {
+    currentTheme: string;
+    themeMode: 'light' | 'dark' | 'auto';
+    autoMode: boolean;
+    preferredLightTheme?: string;
+    preferredDarkTheme?: string;
+    customThemeDir?: string;
+  };
+  'theme.custom': string[]; // 自定义主题ID列表
 }
 
 export interface IEnvStorageRefer {

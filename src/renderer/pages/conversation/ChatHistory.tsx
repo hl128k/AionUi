@@ -87,8 +87,8 @@ const ChatHistory: React.FC = ({ ...props }) => {
       <div
         key={conversation.id}
         id={'c-' + conversation.id}
-        className={classNames('hover:bg-#EBECF1 px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
-          '!bg-#E5E7F0 ': isSelected,
+        className={classNames('o-slider-menu px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
+          'o-slider-menu-active': isSelected,
         })}
         onClick={handleSelect.bind(null, conversation)}
       >

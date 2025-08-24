@@ -1,4 +1,4 @@
-import type { ModalProps } from '@arco-design/web-react';
+import type { ModalProps } from '@/renderer/components/themed-components';
 import React, { useMemo, useState } from 'react';
 
 type TUseModalReturn<Props extends Record<string, any> = {}> = [
