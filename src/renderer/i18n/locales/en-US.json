@@ -66,6 +66,7 @@
     "gemini": "Gemini Settings",
     "model": "Model Settings",
     "system": "System Settings",
+    "theme": "Theme Settings",
     "about": "About Us",
     "addModel": "Add Model",
     "editModel": "Edit Model",

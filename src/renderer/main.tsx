@@ -5,12 +5,17 @@
  */
 
 import React from 'react';
+import { ThemeProvider } from '@/renderer/themes';
 import Layout from './layout';
 import Router from './router';
 import Sider from './sider';
 
 const Main = () => {
-  return <Router layout={<Layout sider={<Sider></Sider>}></Layout>}></Router>;
+  return (
+    <ThemeProvider>
+      <Router layout={<Layout sider={<Sider></Sider>}></Layout>}></Router>
+    </ThemeProvider>
+  );
 };
 
 export default Main;

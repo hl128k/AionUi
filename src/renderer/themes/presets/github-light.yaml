@@ -1,0 +1,150 @@
+# GitHub Light 主题配置
+# 基于经典的 GitHub 代码高亮风格
+name: 'GitHub Light'
+id: 'github-light'
+mode: 'light'
+description: 'Classic GitHub light theme with clean interface'
+version: '1.0.0'
+author: 'AionUi Team'
+
+# 代码高亮主题
+codeHighlight:
+  # 基础样式
+  background: '#ffffff'
+  color: '#24292f'
+  fontFamily: 'SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace'
+  fontSize: '14px'
+  lineHeight: '1.45'
+
+  # 语法元素
+  keyword: '#cf222e' # 关键字
+  string: '#0a3069' # 字符串
+  comment: '#6e7781' # 注释
+  number: '#0550ae' # 数字
+  function: '#8250df' # 函数
+  variable: '#953800' # 变量
+  operator: '#cf222e' # 操作符
+  type: '#0550ae' # 类型
+  constant: '#0550ae' # 常量
+  punctuation: '#24292f' # 标点
+
+  # 进阶元素
+  className: '#8250df'
+  property: '#0550ae'
+  tag: '#116329'
+  attr: '#8250df'
+
+  # 界面样式
+  headerBackground: '#f6f8fa'
+  headerColor: '#656d76'
+  lineNumberColor: '#8c959f'
+  selectedLineBackground: '#e7f1ff'
+  borderColor: '#d0d7de'
+  scrollbarColor: '#d0d7de'
+  iconColor: '#656d76'
+  inlineCodeBackground: '#f6f8fa'
+  inlineCodeBorder: '#d0d7de'
+
+# 全局应用样式 (根据思路.md中的样式集定义)
+appStyles:
+  # 左侧菜单栏样式
+  o-slider:
+    backgroundColor: '#f6f8fa'
+    color: '#24292f'
+    borderRight: '1px solid #d0d7de'
+
+  # 右侧内容区域样式
+  o-main:
+    backgroundColor: '#ffffff'
+    color: '#24292f'
+
+  # 左侧菜单样式
+  o-slider-menu:
+    color: '#656d76'
+    backgroundColor: 'transparent'
+    padding: '8px 16px'
+    borderRadius: '6px'
+    margin: '2px 8px'
+    cursor: 'pointer'
+    transition: 'all 0.2s ease'
+
+  # 左侧菜单项hover样式
+  o-slider-menu-hover:
+    color: '#24292f'
+    backgroundColor: '#e7f1ff'
+
+  # 左侧菜单项选中样式
+  o-slider-menu-active:
+    color: '#0550ae'
+    backgroundColor: '#dbeafe'
+    fontWeight: '600'
+
+  # 聊天消息样式 - 用户消息
+  o-chat-message-user:
+    backgroundColor: '#0550ae'
+    color: '#ffffff'
+    border: '1px solid #0969da'
+    borderRadius: '12px'
+    padding: '12px 16px'
+    marginBottom: '8px'
+    maxWidth: '80%'
+    marginLeft: 'auto'
+
+  # 聊天消息样式 - 助手消息
+  o-chat-message-assistant:
+    backgroundColor: '#f6f8fa'
+    color: '#24292f'
+    border: '1px solid #d0d7de'
+    borderRadius: '12px'
+    padding: '12px 16px'
+    marginBottom: '8px'
+    maxWidth: '80%'
+    marginRight: 'auto'
+
+  # 聊天消息样式 - 系统消息
+  o-chat-message-system:
+    backgroundColor: '#fff8c5'
+    color: '#7d2d00'
+    border: '1px solid #d1a650'
+    borderRadius: '8px'
+    padding: '8px 12px'
+    marginBottom: '8px'
+    fontSize: '14px'
+    textAlign: 'center'
+
+  # 右侧工作区样式
+  o-workspace:
+    backgroundColor: '#ffffff'
+    color: '#24292f'
+    border: '1px solid #d0d7de'
+    borderRadius: '8px'
+    padding: '16px'
+    margin: '8px'
+
+  # 设置中分组框样式
+  o-setting-group:
+    backgroundColor: '#f6f8fa'
+    color: '#24292f'
+    border: '1px solid #d0d7de'
+    borderRadius: '8px'
+    padding: '16px'
+    marginBottom: '16px'
+
+  # 系统主题色 (支持arco-design)
+  o-primary-color:
+    color: '#0550ae'
+    '--primary-6': '#0550ae'
+    '--primary-5': '#0969da'
+    '--primary-7': '#0a3069'
+
+  # 图标颜色
+  o-icon-color:
+    color: '#656d76'
+    fill: '#656d76'
+
+# 主题元数据
+metadata:
+  createdAt: '2025-08-23T16:39:00Z'
+  updatedAt: '2025-08-23T16:39:00Z'
+  tags: ['light', 'github', 'clean', 'professional']
+  basedOn: 'GitHub'

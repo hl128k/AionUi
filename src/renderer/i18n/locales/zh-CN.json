@@ -66,6 +66,7 @@
     "gemini": "Gemini 设置",
     "model": "模型配置",
     "system": "系统设置",
+    "theme": "主题设置",
     "about": "关于我们",
     "addModel": "添加模型",
     "editModel": "编辑模型",
