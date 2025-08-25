@@ -5,7 +5,7 @@
  */
 
 import { Badge, Button, Card, Divider, Empty, List, Message, Modal, Popconfirm, Select, Space, Switch, Tabs, Typography, Upload } from '@arco-design/web-react';
-import { Download, Preview, Moon, Refresh, SunOne, Setting, Delete, Plus } from '@icon-park/react';
+import { Delete, Download, Moon, Plus, ViewList as Preview, Refresh, Setting, SunOne } from '@icon-park/react';
 import React, { useCallback, useState } from 'react';
 import { useThemeManager, useThemeMode, useThemeSwitcher } from '../hooks';
 import type { AppTheme } from '../types';

@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ConfigProvider } from '@arco-design/web-react';
 import React, { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { arcoThemeAdapter, ArcoThemeConverter } from './arco-adapter';
 import { getBuiltInAppThemes, getDefaultThemeForMode } from './presets';
 import { detectSystemTheme, themeStorage, watchSystemTheme } from './storage';
-import type { AppTheme, CodeHighlightTheme, ThemeMode } from './types';
+import type { AppTheme, ArcoThemeConfig, CodeHighlightTheme, ThemeMode } from './types';
 
 /**
  * 主题上下文类型定义
@@ -37,6 +39,11 @@ export interface ThemeContextType {
   // 实用方法
   getEffectiveTheme: () => AppTheme | null;
   generateSyntaxHighlighterStyle: (theme?: CodeHighlightTheme) => Record<string, any>;
+
+  // Arco Design 增强功能
+  getArcoThemeConfig: () => ArcoThemeConfig | null;
+  updateArcoTheme: (config: Partial<ArcoThemeConfig>) => void;
+  resetArcoTheme: () => void;
 }
 
 /**
@@ -71,6 +78,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
   const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(() => detectSystemTheme());
   const [availableThemes, setAvailableThemes] = useState<AppTheme[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // === Arco Design 主题状态 ===
+  const [arcoThemeConfig, setArcoThemeConfig] = useState<ArcoThemeConfig | null>(null);
 
   // === 计算属性 ===
   const lightThemes = availableThemes.filter((theme) => theme.mode === 'light');
@@ -349,6 +359,43 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
     [handleError, currentTheme, refreshThemes, setTheme]
   );
 
+  // === Arco Design 增强方法 ===
+
+  /**
+   * 获取当前的 Arco Design 主题配置
+   */
+  const getArcoThemeConfig = useCallback((): ArcoThemeConfig | null => {
+    const effectiveTheme = getEffectiveTheme();
+    if (!effectiveTheme) return null;
+
+    return arcoThemeAdapter.getArcoThemeConfig(effectiveTheme);
+  }, [getEffectiveTheme]);
+
+  /**
+   * 更新 Arco Design 主题配置
+   */
+  const updateArcoTheme = useCallback(
+    (config: Partial<ArcoThemeConfig>) => {
+      const currentConfig = getArcoThemeConfig();
+      if (!currentConfig) return;
+
+      const newConfig = { ...currentConfig, ...config };
+      setArcoThemeConfig(newConfig);
+    },
+    [getArcoThemeConfig]
+  );
+
+  /**
+   * 重置 Arco Design 主题配置
+   */
+  const resetArcoTheme = useCallback(() => {
+    const effectiveTheme = getEffectiveTheme();
+    if (!effectiveTheme) return;
+
+    const defaultConfig = ArcoThemeConverter.convertToArcoTheme(effectiveTheme);
+    setArcoThemeConfig(defaultConfig);
+  }, [getEffectiveTheme]);
+
   // === 初始化效果 ===
   useEffect(() => {
     const initializeThemes = async () => {
@@ -398,6 +445,16 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
     return cleanup;
   }, []);
 
+  // === Arco Design 主题配置更新效果 ===
+  useEffect(() => {
+    const effectiveTheme = getEffectiveTheme();
+    if (!effectiveTheme) return;
+
+    // 自动更新 Arco Design 主题配置
+    const newArcoConfig = arcoThemeAdapter.getArcoThemeConfig(effectiveTheme);
+    setArcoThemeConfig(newArcoConfig);
+  }, [currentTheme, themeMode, systemTheme, getEffectiveTheme]);
+
   // === 主题上下文值 ===
   const contextValue: ThemeContextType = {
     // 状态
@@ -424,7 +481,28 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
     // 实用方法
     getEffectiveTheme,
     generateSyntaxHighlighterStyle,
+
+    // Arco Design 增强功能
+    getArcoThemeConfig,
+    updateArcoTheme,
+    resetArcoTheme,
   };
+
+  // === 准备 Arco Design 主题配置 ===
+  const arcoThemeProps = arcoThemeConfig
+    ? {
+        theme: {
+          primaryColor: arcoThemeConfig.primary?.primary,
+          ...(arcoThemeConfig.colors && {
+            colorSuccess: arcoThemeConfig.colors.success,
+            colorWarning: arcoThemeConfig.colors.warning,
+            colorError: arcoThemeConfig.colors.danger,
+            colorInfo: arcoThemeConfig.colors.info,
+            colorLink: arcoThemeConfig.colors.link,
+          }),
+        },
+      }
+    : {};
 
   // === 轻量级主题应用效果 ===
   useEffect(() => {
@@ -468,7 +546,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
     console.log(`🎨 Theme variables updated: ${effectiveTheme.name} (${effectiveTheme.mode})`);
   }, [currentTheme, themeMode, systemTheme, availableThemes]);
 
-  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={contextValue}>
+      <ConfigProvider {...arcoThemeProps}>{children}</ConfigProvider>
+    </ThemeContext.Provider>
+  );
 };
 
 /**
@@ -498,4 +580,25 @@ export const useCurrentTheme = (): AppTheme | null => {
 export const useSyntaxHighlighterStyle = (): Record<string, any> => {
   const { generateSyntaxHighlighterStyle } = useThemeContext();
   return generateSyntaxHighlighterStyle();
+};
+
+/**
+ * 获取 Arco Design 主题配置的专用 Hook
+ */
+export const useArcoThemeConfig = (): ArcoThemeConfig | null => {
+  const { getArcoThemeConfig } = useThemeContext();
+  return getArcoThemeConfig();
+};
+
+/**
+ * Arco Design 主题管理 Hook
+ */
+export const useArcoThemeManager = () => {
+  const { getArcoThemeConfig, updateArcoTheme, resetArcoTheme } = useThemeContext();
+
+  return {
+    arcoConfig: getArcoThemeConfig(),
+    updateArcoTheme,
+    resetArcoTheme,
+  };
 };

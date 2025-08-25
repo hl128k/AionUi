@@ -157,6 +157,166 @@ export interface GlobalAppTheme {
 }
 
 /**
+ * Arco Design 主题配置接口
+ * 支持 Arco Design 原生主题系统的完整配置
+ */
+export interface ArcoThemeConfig {
+  /** 主色调配置 */
+  primary?: {
+    /** 主色调 */
+    primary?: string;
+    /** 主色调浅色 */
+    primaryLight?: string;
+    /** 主色调深色 */
+    primaryDark?: string;
+    /** 主色调色板 (1-10) */
+    primaryPalette?: Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10, string>;
+  };
+
+  /** 辅助色配置 */
+  colors?: {
+    /** 成功色 */
+    success?: string;
+    /** 警告色 */
+    warning?: string;
+    /** 错误色 */
+    danger?: string;
+    /** 信息色 */
+    info?: string;
+    /** 链接色 */
+    link?: string;
+  };
+
+  /** 中性色配置 */
+  neutral?: {
+    /** 文本颜色系列 */
+    colorText?: string;
+    colorTextSecondary?: string;
+    colorTextTertiary?: string;
+    colorTextQuaternary?: string;
+
+    /** 背景颜色系列 */
+    colorBg?: string;
+    colorBgSecondary?: string;
+    colorBgTertiary?: string;
+    colorBgQuaternary?: string;
+
+    /** 边框颜色系列 */
+    colorBorder?: string;
+    colorBorderSecondary?: string;
+  };
+
+  /** 组件特定配置 */
+  components?: {
+    /** Button 组件配置 */
+    Button?: {
+      colorPrimary?: string;
+      colorHover?: string;
+      colorActive?: string;
+      colorDisabled?: string;
+      borderRadius?: number;
+    };
+
+    /** Menu 组件配置 */
+    Menu?: {
+      colorItemText?: string;
+      colorItemTextHover?: string;
+      colorItemTextSelected?: string;
+      colorItemBg?: string;
+      colorItemBgHover?: string;
+      colorItemBgSelected?: string;
+    };
+
+    /** Message 组件配置 */
+    Message?: {
+      colorBg?: string;
+      colorText?: string;
+      borderRadius?: number;
+    };
+
+    /** Layout 组件配置 */
+    Layout?: {
+      colorSiderBg?: string;
+      colorHeaderBg?: string;
+      colorContentBg?: string;
+      colorBorder?: string;
+    };
+  };
+
+  /** 尺寸规范 */
+  sizing?: {
+    /** 边框圆角 */
+    borderRadius?: number;
+    borderRadiusSmall?: number;
+    borderRadiusLarge?: number;
+
+    /** 间距规范 */
+    spacingXS?: number;
+    spacingS?: number;
+    spacingM?: number;
+    spacingL?: number;
+    spacingXL?: number;
+  };
+
+  /** 字体配置 */
+  typography?: {
+    fontFamily?: string;
+    fontFamilyCode?: string;
+    fontSize?: number;
+    fontSizeSmall?: number;
+    fontSizeLarge?: number;
+    lineHeight?: number;
+  };
+
+  /** 阴影配置 */
+  shadows?: {
+    boxShadowCard?: string;
+    boxShadowDrawer?: string;
+    boxShadowModal?: string;
+    boxShadowPopup?: string;
+  };
+
+  /** 动画配置 */
+  motion?: {
+    /** 动画时长 */
+    durationFast?: string;
+    durationMid?: string;
+    durationSlow?: string;
+
+    /** 缓动函数 */
+    easeInOut?: string;
+    easeOut?: string;
+    easeIn?: string;
+  };
+}
+
+/**
+ * 增强的全局应用样式主题配置接口
+ * 集成 Arco Design 原生主题支持
+ */
+export interface EnhancedGlobalAppTheme extends GlobalAppTheme {
+  /** Arco Design 主题配置 */
+  arcoTheme?: ArcoThemeConfig;
+
+  /** 是否启用 Arco Design 原生主题模式 */
+  useArcoNativeTheme?: boolean;
+
+  /** 主题模式特定的 Arco 配置 */
+  arcoThemeByMode?: {
+    light?: Partial<ArcoThemeConfig>;
+    dark?: Partial<ArcoThemeConfig>;
+  };
+
+  /** CSS 变量映射（用于向下兼容） */
+  cssVariables?: Record<string, string>;
+
+  /** 组件级别的自定义样式 */
+  componentOverrides?: {
+    [componentName: string]: React.CSSProperties;
+  };
+}
+
+/**
  * 代码高亮主题预设
  * 预定义的主题配置，用户可以直接选择使用
  */
@@ -187,8 +347,8 @@ export interface AppTheme {
   mode: 'light' | 'dark';
   /** 代码高亮主题 */
   codeHighlight: CodeHighlightTheme;
-  /** 全局应用主题样式（新增） */
-  globalStyles?: GlobalAppTheme;
+  /** 增强版全局应用主题样式（支持 Arco Design） */
+  globalStyles?: EnhancedGlobalAppTheme;
   /** 主题描述 */
   description?: string;
   /** 是否为内置主题 */

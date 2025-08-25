@@ -8,7 +8,7 @@
 export type { AppTheme, CodeHighlightPreset, CodeHighlightTheme, CSSInjectionConfig, ExternalThemeFile, GlobalAppTheme, ThemeConfig, ThemeMode, ThemeStorage } from './types';
 
 // === 内置主题预设 ===
-export { builtInPresets, createAppThemeFromPreset, getBuiltInAppThemes, getDefaultThemeForMode, githubLightPreset, monokaiPreset, solarizedLightPreset, tomorrowNightPreset, vscodeEarkPreset } from './presets';
+export { builtInPresets, createAppThemeFromPreset, createEnhancedAppTheme, getBuiltInAppThemes, getDefaultThemeForMode, getEnhancedBuiltInThemes, getEnhancedDefaultThemeForMode, githubLightPreset, monokaiPreset, solarizedLightPreset, tomorrowNightPreset, vscodeEarkPreset } from './presets';
 
 // === 存储管理 ===
 export { detectSystemTheme, IntegratedThemeStorage, themeStorage, watchSystemTheme } from './storage';
@@ -16,7 +16,23 @@ export { detectSystemTheme, IntegratedThemeStorage, themeStorage, watchSystemThe
 // === React Provider ===
 export type { ThemeContextType, ThemeProviderProps } from './provider';
 
-export { ThemeProvider, useCurrentTheme, useSyntaxHighlighterStyle, useThemeContext } from './provider';
+export { ThemeProvider, useArcoThemeConfig, useArcoThemeManager, useCurrentTheme, useSyntaxHighlighterStyle, useThemeContext } from './provider';
+
+// === Arco Design 适配器 ===
+export { ColorUtils as ArcoColorUtils, ArcoThemeAdapter, arcoThemeAdapter, ArcoThemeConverter } from './arco-adapter';
+export type { ArcoThemeConfig, EnhancedGlobalAppTheme } from './types';
+
+// === 主题化组件 ===
+export { ThemedAlert, ThemedButton, ThemedCard, ThemedCollapse, ThemedComponents, ThemedContainer, ThemedDivider, ThemedDrawer, ThemedEmpty, ThemedForm, ThemedIcon, ThemedInput, ThemedLayout, ThemedMenu, ThemedMessage, ThemedModal, ThemedSelect, ThemedSpin, ThemedSwitch, ThemedTable, ThemedTabs, ThemedTag, ThemedTooltip, ThemedTypography, useThemedComponents } from './themed-components';
+
+// === 性能监控 ===
+// 注意：性能监控功能暂时注释掉，因为对应的文件不存在
+// export { performanceMonitor, themeCacheManager, ThemeCacheManager, ThemePerformanceMonitor, themePreloader, ThemePreloader } from './performance';
+// export type { PerformanceConfig, PerformanceMetrics } from './performance';
+
+// === 测试组件 ===
+// 注意：测试组件暂时注释掉，因为对应的文件不存在
+// export { ThemeIntegrationTest } from './test-integration';
 
 // === Hooks 集合 ===
 export { useCodeHighlightTheme, useSystemTheme, useThemeManager, useThemeMode, useThemePerformance, useThemePreview, useThemeSwitcher, useThemeValidator } from './hooks';

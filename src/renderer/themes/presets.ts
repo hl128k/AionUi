@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createDefaultGlobalStyles } from './global-styles';
-import type { AppTheme, CodeHighlightPreset } from './types';
+import { ArcoThemeConverter } from './arco-adapter';
+import type { AppTheme, CodeHighlightPreset, EnhancedGlobalAppTheme } from './types';
 
 /**
  * GitHub Light 主题预设
@@ -258,29 +258,82 @@ export const solarizedLightPreset: CodeHighlightPreset = {
 export const builtInPresets: CodeHighlightPreset[] = [githubLightPreset, vscodeEarkPreset, tomorrowNightPreset, monokaiPreset, solarizedLightPreset];
 
 /**
- * 根据预设创建完整的应用主题（包含全局样式）
+ * 根据预设创建完整的应用主题（增强版，包含 Arco Design 支持）
  */
 export function createAppThemeFromPreset(preset: CodeHighlightPreset): AppTheme {
   const effectiveMode = preset.mode === 'both' ? 'light' : preset.mode;
 
-  return {
+  const baseTheme: AppTheme = {
     id: `builtin-${preset.id}`,
     name: preset.name,
     mode: effectiveMode,
     description: preset.description,
     codeHighlight: preset.theme,
-    globalStyles: createDefaultGlobalStyles(effectiveMode), // 新增全局样式
     isBuiltIn: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
+
+  // 生成增强版全局主题样式，包含 Arco Design 配置
+  const enhancedGlobalStyles = ArcoThemeConverter.createEnhancedGlobalStyles(baseTheme);
+
+  return {
+    ...baseTheme,
+    globalStyles: enhancedGlobalStyles,
+  };
 }
 
 /**
- * 获取所有内置应用主题
+ * 创建增强版应用主题（支持自定义配置）
+ */
+export function createEnhancedAppTheme(id: string, name: string, mode: 'light' | 'dark', codeHighlight: any, customGlobalStyles?: Partial<EnhancedGlobalAppTheme>): AppTheme {
+  const baseTheme: AppTheme = {
+    id,
+    name,
+    mode,
+    codeHighlight,
+    description: `Enhanced ${name} theme with Arco Design support`,
+    isBuiltIn: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  // 生成增强版全局样式
+  const enhancedStyles = ArcoThemeConverter.createEnhancedGlobalStyles(baseTheme);
+
+  // 合并自定义样式
+  if (customGlobalStyles) {
+    baseTheme.globalStyles = { ...enhancedStyles, ...customGlobalStyles };
+  } else {
+    baseTheme.globalStyles = enhancedStyles;
+  }
+
+  return baseTheme;
+}
+
+/**
+ * 获取所有内置应用主题（增强版，包含 Arco Design 支持）
  */
 export function getBuiltInAppThemes(): AppTheme[] {
   return builtInPresets.map(createAppThemeFromPreset);
+}
+
+/**
+ * 获取增强版内置主题（专门为 Arco Design 优化）
+ */
+export function getEnhancedBuiltInThemes(): AppTheme[] {
+  const themes = getBuiltInAppThemes();
+
+  // 为每个主题确保都有完整的 Arco Design 配置
+  return themes.map((theme) => {
+    if (!theme.globalStyles?.useArcoNativeTheme) {
+      return {
+        ...theme,
+        globalStyles: ArcoThemeConverter.createEnhancedGlobalStyles(theme),
+      };
+    }
+    return theme;
+  });
 }
 
 /**
@@ -292,4 +345,15 @@ export function getDefaultThemeForMode(mode: 'light' | 'dark'): AppTheme {
   } else {
     return createAppThemeFromPreset(githubLightPreset);
   }
+}
+
+/**
+ * 根据主题模式获取增强版默认主题
+ */
+export function getEnhancedDefaultThemeForMode(mode: 'light' | 'dark'): AppTheme {
+  const baseTheme = getDefaultThemeForMode(mode);
+  return {
+    ...baseTheme,
+    globalStyles: ArcoThemeConverter.createEnhancedGlobalStyles(baseTheme),
+  };
 }
