@@ -5,7 +5,7 @@
  */
 
 import { Badge, Button, Card, Divider, Empty, List, Message, Modal, Popconfirm, Select, Space, Switch, Tabs, Typography, Upload } from '@arco-design/web-react';
-import { Delete, Download, Moon, Plus, ViewList as Preview, Refresh, Setting, SunOne } from '@icon-park/react';
+import { Delete, Download, Moon, Plus, ViewList, Refresh, Setting, SunOne } from '@icon-park/react';
 import React, { useCallback, useState } from 'react';
 import { useThemeManager, useThemeMode, useThemeSwitcher } from '../hooks';
 import type { AppTheme } from '../types';
@@ -125,7 +125,7 @@ const ThemeManagementPanel: React.FC = () => {
                 marginBottom: 8,
               }}
               actions={[
-                <Button key='preview' type='text' icon={<Preview />} onClick={() => handlePreview(theme)}>
+                <Button key='preview' type='text' icon={<ViewList />} onClick={() => handlePreview(theme)}>
                   预览
                 </Button>,
                 <Button key='export' type='text' icon={<Download />} loading={isExporting} onClick={() => handleExport(theme)}>
@@ -187,7 +187,7 @@ const ThemeManagementPanel: React.FC = () => {
                   marginBottom: 8,
                 }}
                 actions={[
-                  <Button key='preview' type='text' icon={<Preview />} onClick={() => handlePreview(theme)}>
+                  <Button key='preview' type='text' icon={<ViewList />} onClick={() => handlePreview(theme)}>
                     预览
                   </Button>,
                   <Button key='export' type='text' icon={<Download />} loading={isExporting} onClick={() => handleExport(theme)}>
