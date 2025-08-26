@@ -97,11 +97,11 @@ const GeminiWorkspace: React.FC<{
     <div className='size-full flex flex-col'>
       <div className='px-16px pb-8px flex items-center justify-start gap-4px'>
         <span className='font-bold text-14px'>{t('common.file')}</span>
-        <Refresh className={loading ? 'loading lh-[1] flex' : 'flex'} theme='outline' fill='#333' onClick={refreshWorkspace} />
+        <Refresh className={loading ? 'loading lh-[1] flex' : 'flex'} theme='outline' fill='var(--theme-text)' onClick={refreshWorkspace} />
       </div>
       {hasOriginalFiles && (
         <div className='px-16px pb-8px'>
-          <Input className='w-full' placeholder={t('conversation.workspace.searchPlaceholder')} value={searchText} onChange={setSearchText} allowClear prefix={<Search theme='outline' size='14' fill='#333' />} />
+          <Input className='w-full' placeholder={t('conversation.workspace.searchPlaceholder')} value={searchText} onChange={setSearchText} allowClear prefix={<Search theme='outline' size='14' fill='var(--theme-text)' />} />
         </div>
       )}
       <FlexFullContainer containerClassName='overflow-y-auto'>
@@ -110,7 +110,7 @@ const GeminiWorkspace: React.FC<{
             <Empty
               description={
                 <div>
-                  <span className='color-#6b7280 font-bold text-14px'>{t('conversation.workspace.empty')}</span>
+                  <span className='text-[var(--theme-secondary-text)] font-bold text-14px'>{t('conversation.workspace.empty')}</span>
                   <div>{t('conversation.workspace.emptyDescription')}</div>
                 </div>
               }

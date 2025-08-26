@@ -20,11 +20,11 @@ const useSiderWidthWithDray = (defaultWidth: number) => {
 
     const initDragStyle = () => {
       const originalUserSelect = document.body.style.userSelect;
-      target.classList.add('bg-#86909C/40');
+      target.classList.add('bg-[var(--theme-border)]');
       document.body.style.userSelect = 'none';
       document.body.style.cursor = 'col-resize';
       return () => {
-        target.classList.remove('bg-#86909C/40');
+        target.classList.remove('bg-[var(--theme-border)]');
         document.body.style.userSelect = originalUserSelect;
         document.body.style.cursor = '';
         target.style.transform = '';
@@ -49,7 +49,7 @@ const useSiderWidthWithDray = (defaultWidth: number) => {
 
   const dragContext = (
     <div
-      className={`absolute left-0 top-0 bottom-0 w-6px cursor-col-resize  z-10 hover:bg-#86909C/20`}
+      className={`absolute left-0 top-0 bottom-0 w-6px cursor-col-resize  z-10 hover:bg-[var(--theme-secondary-bg)]`}
       onMouseDown={handleDragStart}
       onDoubleClick={() => {
         setSiderWidth(defaultWidth);

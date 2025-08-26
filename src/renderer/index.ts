@@ -20,8 +20,9 @@ import { useTranslation } from 'react-i18next';
 import 'uno.css';
 import './i18n';
 import './index.css';
-import { ThemeProvider } from './themes';
+import './themes/simple-theme.css'; // 导入简化主题样式
 import HOC from './utils/HOC';
+
 const root = createRoot(document.getElementById('root'));
 
 const Config: React.FC<PropsWithChildren> = (props) => {
@@ -31,18 +32,11 @@ const Config: React.FC<PropsWithChildren> = (props) => {
   return React.createElement(
     ConfigProvider,
     {
-      theme: {
-        primaryColor: '#4E5969',
-      },
       locale: language === 'zh-CN' ? zhCN : language === 'zh-TW' ? zhTW : language === 'ja-JP' ? jaJP : enUS,
     },
     props.children
   );
 };
 
-// 包装 ThemeProvider 的组件
-const AppWithTheme: React.FC<PropsWithChildren> = ({ children }) => {
-  return React.createElement(ThemeProvider, { children });
-};
-
-root.render(React.createElement(HOC(AppWithTheme)(HOC(Config)(Main))));
+// 简化版渲染，移除复杂的主题包装
+root.render(React.createElement(HOC(Config)(Main)));

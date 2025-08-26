@@ -62,7 +62,7 @@ const Diff2Html = ({ diff, className, title }: { diff: string; className?: strin
           >
             <span className='whitespace-nowrap'>side-by-side</span>
           </Checkbox>
-          {collapse ? <ExpandDownOne theme='outline' size='14' fill='#333' className='flex items-center' onClick={() => setCollapse(false)} /> : <FoldUpOne theme='outline' size='14' fill='#333' className='flex items-center' onClick={() => setCollapse(true)} />}
+          {collapse ? <ExpandDownOne theme='outline' size='14' fill='var(--theme-text)' className='flex items-center' onClick={() => setCollapse(false)} /> : <FoldUpOne theme='outline' size='14' fill='var(--theme-text)' className='flex items-center' onClick={() => setCollapse(true)} />}
         </>,
         operatorRef.current
       )}

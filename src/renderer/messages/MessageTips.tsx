@@ -41,7 +41,7 @@ const MessageTips: React.FC<{ message: IMessageTips }> = ({ message }) => {
       </div>
     );
   return (
-    <div className={classNames('bg-#f0f4ff rd-8px  p-x-12px p-y-8px flex items-start gap-4px')}>
+    <div className={classNames('bg-[var(--theme-secondary-bg)] rd-8px p-x-12px p-y-8px flex items-start gap-4px')}>
       {icon[type] || icon.warning}
       <span
         className='whitespace-break-spaces   [word-break:break-word]'

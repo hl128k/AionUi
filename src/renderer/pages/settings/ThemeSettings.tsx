@@ -1,16 +1,8 @@
 import React from 'react';
-import { ThemeSettings } from '@/renderer/themes/components/ThemeSettings';
-import SettingContainer from './components/SettingContainer';
-import { useTranslation } from 'react-i18next';
+import SimpleThemeSettingsPage from './SimpleThemeSettings';
 
 const ThemeSettingsPage: React.FC = () => {
-  const { t } = useTranslation();
-
-  return (
-    <SettingContainer title={t('settings.theme')}>
-      <ThemeSettings />
-    </SettingContainer>
-  );
+  return <SimpleThemeSettingsPage />;
 };
 
 export default ThemeSettingsPage;

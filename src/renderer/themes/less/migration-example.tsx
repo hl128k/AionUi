@@ -89,7 +89,7 @@ export const LegacyThemeProvider: React.FC<{ children: React.ReactNode }> = ({ c
   };
 
   return (
-    <ConfigProvider theme={currentTheme.mode === 'dark' ? 'dark' : undefined}>
+    <ConfigProvider theme={{ primaryColor: currentTheme.mode === 'dark' ? '#3491FA' : '#165DFF' }}>
       {/* 可以在这里注入全局CSS变量供旧组件使用 */}
       <style>
         {`

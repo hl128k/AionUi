@@ -29,7 +29,7 @@ const DirInputItem: React.FC<{
             <FolderOpen
               theme='outline'
               size='24'
-              fill='#333'
+              fill='var(--theme-text)'
               onClick={() => {
                 ipcBridge.dialog.showOpen
                   .invoke({

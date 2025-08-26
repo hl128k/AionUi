@@ -215,7 +215,7 @@ export const LessVariableThemeProvider: React.FC<LessVariableThemeProviderProps>
 
   return (
     <LessVariableThemeContext.Provider value={contextValue}>
-      <ConfigProvider theme={currentTheme.mode === 'dark' ? 'dark' : 'light'}>{children}</ConfigProvider>
+      <ConfigProvider theme={{ primaryColor: currentTheme.mode === 'dark' ? '#3491FA' : '#165DFF' }}>{children}</ConfigProvider>
     </LessVariableThemeContext.Provider>
   );
 };

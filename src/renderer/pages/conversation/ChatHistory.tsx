@@ -99,7 +99,7 @@ const ChatHistory: React.FC = ({ ...props }) => {
         <div
           className={classNames('absolute right--15px top-0px h-full w-70px items-center justify-center hidden group-hover:flex !collapsed-hidden')}
           style={{
-            backgroundImage: `linear-gradient(to right, rgba(219, 234, 254, 0),${isSelected ? '#E5E7F0' : '#E5E7F0'} 50%)`,
+            backgroundImage: `linear-gradient(to right, transparent, var(--theme-secondary-bg) 50%)`,
           }}
           onClick={(event) => {
             event.stopPropagation();
@@ -146,7 +146,7 @@ const ChatHistory: React.FC = ({ ...props }) => {
             const timeline = formatTimeline(item);
             return (
               <React.Fragment key={item.id}>
-                {timeline && <div className='collapsed-hidden px-12px py-8px text-13px color-#555 font-bold'>{timeline}</div>}
+                {timeline && <div className='collapsed-hidden px-12px py-8px text-13px text-[var(--theme-secondary-text)] font-bold'>{timeline}</div>}
                 {renderConversation(item)}
               </React.Fragment>
             );

@@ -95,12 +95,12 @@ const Guid: React.FC = () => {
   }, [modelList]);
   return (
     <div className='h-full flex-center flex-col px-100px'>
-      <p className='text-2xl font-semibold text-gray-900 mb-8'>{t('conversation.welcome.title')}</p>
-      <div className='w-full bg-white b-solid border border-#E5E6EB  rd-20px  focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] transition-all duration-200 overflow-hidden p-16px'>
+      <p className='text-2xl font-semibold text-[var(--theme-text)] mb-8'>{t('conversation.welcome.title')}</p>
+      <div className='w-full bg-[var(--theme-bg)] b-solid border border-[var(--theme-border)] rd-20px focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] transition-all duration-200 overflow-hidden p-16px'>
         <Input.TextArea
           rows={5}
           placeholder={t('conversation.welcome.placeholder')}
-          className='text-16px focus:b-none rounded-xl !bg-white !b-none !resize-none'
+          className='text-16px focus:b-none rounded-xl !bg-[var(--theme-bg)] !b-none !resize-none'
           value={input}
           onChange={(v) => setInput(v)}
           onCompositionStartCapture={() => {
@@ -146,7 +146,7 @@ const Guid: React.FC = () => {
               }
             >
               <span className='flex items-center gap-4px cursor-pointer lh-[1]'>
-                <Button type='secondary' shape='circle' icon={<Plus theme='outline' size='14' strokeWidth={2} fill='#333' />}></Button>
+                <Button type='secondary' shape='circle' icon={<Plus theme='outline' size='14' strokeWidth={2} fill='var(--theme-text)' />}></Button>
                 {files.length > 0 && (
                   <Tooltip className={'!max-w-max'} content={<span className='whitespace-break-spaces'>{files.join('\n')}</span>}>
                     <span>File({files.length})</span>
@@ -169,7 +169,7 @@ const Guid: React.FC = () => {
                         {platform.model.map((model) => (
                           <Menu.Item
                             key={platform.id + model}
-                            className={currentModel?.id + currentModel?.useModel === platform.id + model ? '!bg-#f2f3f5' : ''}
+                            className={currentModel?.id + currentModel?.useModel === platform.id + model ? '!bg-[var(--theme-secondary-bg)]' : ''}
                             // key={platform.name + platform.platform + platform.baseUrl + platform.apiKey+model}
                             onClick={() => {
                               setCurrentModel({ ...platform, useModel: model });

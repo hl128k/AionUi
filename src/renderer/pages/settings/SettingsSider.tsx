@@ -46,8 +46,8 @@ const SettingsSider: React.FC = () => {
         return (
           <div
             key={item.path}
-            className={classNames('hover:bg-#EBECF1 px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
-              '!bg-#E5E7F0 ': isSelected,
+            className={classNames('hover:bg-[var(--theme-hover-bg)] px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
+              'bg-[var(--theme-selected-bg)] ': isSelected,
             })}
             onClick={() => {
               navigate(`/settings/${item.path}`);

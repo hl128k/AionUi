@@ -21,7 +21,7 @@ const IconParkHOC = <T extends Record<string, any>>(Component: React.FunctionCom
         React.createElement(Component, {
           key: 'c3',
           strokeWidth: 3,
-          fill: '#86909C',
+          fill: 'var(--theme-secondary-text)',
           ...props,
           className: 'cursor-pointer  ' + ((props as any).className || ''),
         }),

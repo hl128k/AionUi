@@ -4,19 +4,19 @@
  */
 
 // 核心组件
-export { LessVariableThemeProvider, useLessVariableTheme } from './providers/less-variable-provider';
-export { LessVariableThemeManager } from './components/LessVariableThemeManager';
-export { LessThemeTest } from './components/LessThemeTest';
+export { LessVariableThemeProvider, useLessVariableTheme } from '../providers/less-variable-provider';
+export { LessVariableThemeManager } from '../components/LessVariableThemeManager';
+export { LessThemeTest } from '../components/LessThemeTest';
 
 // 管理器和编译器
-export { themeManager, LessVariableThemeManager as ThemeManagerClass } from './managers/theme-manager';
-export { lessCompiler, LessThemeCompiler } from './compiler/less-compiler';
+export { themeManager, LessVariableThemeManager as ThemeManagerClass } from '../managers/theme-manager';
+export { lessCompiler, LessThemeCompiler } from '../compiler/less-compiler';
 
 // 类型定义
-export type { ThemeMode, ArcoThemeTokens, ThemeConfig, ThemeVariableManager, LessCompileResult, ThemeEventTypes, ExternalThemeFile } from './less/types';
+export type { ThemeMode, ArcoThemeTokens, ThemeConfig, ThemeVariableManager, LessCompileResult, ThemeEventTypes, ExternalThemeFile } from './types';
 
 // 编译器类型
-export type { LessCompilerOptions, ThemeCompilationResult } from './compiler/less-compiler';
+export type { LessCompilerOptions, ThemeCompilationResult } from '../compiler/less-compiler';
 
 // 使用示例：
 /*

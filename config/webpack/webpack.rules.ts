@@ -43,6 +43,32 @@ export const rules: Required<ModuleOptions>['rules'] = [
     ],
     include: [/src/, /node_modules/], // 新增 node_modules 包含
   },
+  // Less 文件处理规则
+  {
+    test: /\.less$/,
+    use: [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 2,
+        },
+      },
+      'postcss-loader',
+      {
+        loader: 'less-loader',
+        options: {
+          lessOptions: {
+            javascriptEnabled: true,
+            modifyVars: {
+              // Arco Design 主题变量将在运行时动态注入
+            },
+          },
+        },
+      },
+    ],
+    include: [/src/, /node_modules/],
+  },
   // UnoCSS 虚拟 CSS 文件处理
   {
     test: /_virtual_%2F__uno\.css$/,

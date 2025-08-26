@@ -7,6 +7,8 @@
   --theme-border: #e5e6eb;
   --theme-secondary-bg: #f7f8fa;
   --theme-secondary-text: #4e5969;
+  --theme-primary: #165dff;
+  --theme-primary-light: #e8f3ff;
 }
 
 /* 黑暗主题 */
@@ -16,6 +18,8 @@
   --theme-border: #2e2e30;
   --theme-secondary-bg: #232324;
   --theme-secondary-text: #c9cdd4;
+  --theme-primary: #3491fa;
+  --theme-primary-light: #1a2332;
 }
 
 /* 全局主题应用 */

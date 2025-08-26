@@ -120,7 +120,7 @@ const ThemePreviewCard: React.FC<{
             position: 'absolute',
             top: 4,
             right: 4,
-            background: 'rgba(0,0,0,0.1)',
+            background: 'var(--theme-secondary-bg)',
             borderRadius: 4,
             padding: '2px 4px',
             fontSize: 10,

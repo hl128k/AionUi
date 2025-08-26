@@ -39,30 +39,30 @@ export const LessThemeTest: React.FC = () => {
 
   return (
     <div style={{ padding: '24px' }}>
-      <Title level={2}>Less 变量主题系统测试</Title>
+      <Title heading={2}>Less 变量主题系统测试</Title>
 
       <Space direction='vertical' size='large' style={{ width: '100%' }}>
         {/* 当前主题信息 */}
         <Card title='当前主题信息'>
           <Space direction='vertical'>
             <div>
-              <Text strong>主题名称: </Text>
+              <Text bold>主题名称: </Text>
               <Text>{currentTheme.name}</Text>
             </div>
             <div>
-              <Text strong>主题ID: </Text>
+              <Text bold>主题ID: </Text>
               <Tag>{currentTheme.id}</Tag>
             </div>
             <div>
-              <Text strong>模式: </Text>
+              <Text bold>模式: </Text>
               <Tag color={currentTheme.mode === 'dark' ? 'blue' : 'orange'}>{currentTheme.mode}</Tag>
             </div>
             <div>
-              <Text strong>是否内置: </Text>
+              <Text bold>是否内置: </Text>
               <Tag color={currentTheme.builtin ? 'green' : 'purple'}>{currentTheme.builtin ? '是' : '否'}</Tag>
             </div>
             <div>
-              <Text strong>编译状态: </Text>
+              <Text bold>编译状态: </Text>
               {isCompiling ? <Tag color='blue'>编译中...</Tag> : compilationError ? <Tag color='red'>编译失败</Tag> : <Tag color='green'>编译成功</Tag>}
             </div>
           </Space>
@@ -70,7 +70,7 @@ export const LessThemeTest: React.FC = () => {
 
         {/* 编译错误信息 */}
         {compilationError && (
-          <Card title='编译错误' status='error'>
+          <Card title='编译错误'>
             <Text code>{compilationError}</Text>
           </Card>
         )}
@@ -112,7 +112,7 @@ export const LessThemeTest: React.FC = () => {
         <Card title='组件样式预览'>
           <Space direction='vertical' size='medium' style={{ width: '100%' }}>
             <div>
-              <Text strong>按钮组件:</Text>
+              <Text bold>按钮组件:</Text>
               <div style={{ marginTop: '8px' }}>
                 <Space>
                   <Button type='primary'>主要按钮</Button>
@@ -125,7 +125,7 @@ export const LessThemeTest: React.FC = () => {
             </div>
 
             <div>
-              <Text strong>状态按钮:</Text>
+              <Text bold>状态按钮:</Text>
               <div style={{ marginTop: '8px' }}>
                 <Space>
                   <Button status='success'>成功</Button>
@@ -136,7 +136,7 @@ export const LessThemeTest: React.FC = () => {
             </div>
 
             <div>
-              <Text strong>标签组件:</Text>
+              <Text bold>标签组件:</Text>
               <div style={{ marginTop: '8px' }}>
                 <Space>
                   <Tag>默认标签</Tag>

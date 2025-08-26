@@ -152,13 +152,13 @@ const createInitStyle = () => {
     border-collapse: collapse;  /* 表格边框合并为单一边框 */
     th{
       padding: 8px;
-      border: 1px solid #ddd;
-      background-color: #f5f5f5;
+      border: 1px solid var(--theme-border);
+      background-color: var(--theme-secondary-bg);
       font-weight: bold;
     }
     td{
         padding: 8px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--theme-border);
         min-width: 120px;
     }
   }`;
@@ -224,7 +224,7 @@ const MarkdownView: React.FC<{
                   style={{
                     ...props.style,
                     borderCollapse: 'collapse',
-                    border: '1px solid #ddd',
+                    border: '1px solid var(--theme-border)',
                     minWidth: '100%',
                   }}
                 />
@@ -236,7 +236,7 @@ const MarkdownView: React.FC<{
                 style={{
                   ...props.style,
                   padding: '8px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--theme-border)',
                   minWidth: '120px',
                 }}
               />

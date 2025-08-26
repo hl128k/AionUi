@@ -5,16 +5,21 @@
  */
 
 import React from 'react';
-import { ThemeProvider } from '@/renderer/themes';
+import { SimpleThemeProvider } from '@/renderer/themes/simple-provider';
 import Layout from './layout';
 import Router from './router';
 import Sider from './sider';
 
 const Main = () => {
   return (
-    <ThemeProvider>
+    <SimpleThemeProvider
+      defaultTheme='auto'
+      onThemeChange={(theme) => {
+        console.log('Theme changed:', theme.name);
+      }}
+    >
       <Router layout={<Layout sider={<Sider></Sider>}></Layout>}></Router>
-    </ThemeProvider>
+    </SimpleThemeProvider>
   );
 };
 

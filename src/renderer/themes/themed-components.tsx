@@ -269,7 +269,7 @@ export const ThemedDivider: React.FC<ThemedDividerProps> = ({ variant = 'solid',
     const styles: React.CSSProperties = {
       border: 'none',
       height: 0,
-      borderTop: `${thickness === 'thin' ? '1px' : thickness === 'medium' ? '2px' : '3px'} ${variant} ${arcoConfig?.neutral?.colorBorder || '#e5e6eb'}`,
+      borderTop: `${thickness === 'thin' ? '1px' : thickness === 'medium' ? '2px' : '3px'} ${variant} ${arcoConfig?.neutral?.colorBorder || 'var(--theme-border)'}`,
       margin: `${arcoConfig?.sizing?.spacingM || '16px'} 0`,
     };
 

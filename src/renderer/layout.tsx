@@ -60,7 +60,7 @@ const MainLayout: React.FC<{
           })}
         >
           <div
-            className={classNames('bg-#000 shrink-0 size-40px relative rd-0.5rem ', {
+            className={classNames('bg-[var(--theme-text)] shrink-0 size-40px relative rd-0.5rem ', {
               '!size-24px': collapsed,
             })}
             onClick={onClick}
