@@ -1,7 +1,6 @@
-/**
- * 主题系统导出文件
- */
-
-// 导出简单主题系统
-export { SimpleThemeProvider as ThemeProvider, useTheme, useCodeHighlightTheme } from './simple-theme';
-export type { ThemeMode } from './simple-theme';
+// 统一导出：完整主题系统（Provider + Hooks + 选择器组件）
+export { ThemeProvider, useTheme } from './provider';
+export type { ThemeMode, ThemePack, ThemeTokens } from './types';
+export { default as ThemeSelector } from './components/ThemeSelector';
+// 保留代码高亮 hook（复用简单主题实现）
+export { useCodeHighlightTheme } from './simple-theme/useCodeHighlightTheme';

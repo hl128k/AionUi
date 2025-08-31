@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 
 const ThemeSwitcher: React.FC = () => {
   const { t } = useTranslation();
-  const { theme, setTheme } = useTheme();
+  const { mode, setMode } = useTheme();
   return (
     <div className='flex items-center gap-8px'>
-      <Select value={theme} onChange={setTheme} style={{ width: 100 }} size='small'>
+      <Select value={mode} onChange={setMode} style={{ width: 100 }} size='small'>
         <Select.Option value='light'>{t('settings.lightMode')}</Select.Option>
         <Select.Option value='dark'>{t('settings.darkMode')}</Select.Option>
       </Select>

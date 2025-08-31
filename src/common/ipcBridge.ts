@@ -5,7 +5,7 @@
  */
 
 import { bridge } from '@office-ai/platform';
-import type { OpenDialogOptions } from 'electron';
+import type { OpenDialogOptions, SaveDialogOptions } from 'electron';
 import type { IModel, TChatConversation, TModelWithConversation } from './storage';
 
 // 发送消息

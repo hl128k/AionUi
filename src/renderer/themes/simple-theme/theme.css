@@ -170,3 +170,36 @@ body[arco-theme='dark'] .o-icon-color {
 body[arco-theme='dark'] .o-icon-color:hover {
   color: var(--color-text-1);
 }
+
+/* Global hooks for border/shadow/radius variables */
+/* Border radius applied to common components */
+.arco-card,
+.arco-modal,
+.arco-input,
+.arco-select-view,
+.arco-table,
+.arco-btn,
+.arco-dropdown,
+.arco-popover {
+  border-radius: var(--border-radius-medium, 4px);
+}
+
+/* Border width and color (fallback to existing border color vars) */
+.arco-card,
+.arco-input,
+.arco-select-view,
+.arco-table,
+.arco-modal,
+.arco-dropdown,
+.arco-popover {
+  border-width: var(--border-1, 1px);
+  border-style: solid;
+  border-color: var(--color-border-2, #e5e5e5);
+}
+
+/* Shadows */
+.arco-card,
+.arco-popover,
+.arco-dropdown {
+  box-shadow: var(--shadow1-center, 0 0 10px rgba(0, 0, 0, 0.1));
+}
