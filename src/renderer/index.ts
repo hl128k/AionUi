@@ -12,6 +12,7 @@ import Main from './main';
 
 import 'uno.css';
 import './index.css';
+import './themes/simple-theme/theme.css';
 import '@arco-design/web-react/dist/css/arco.css';
 import './i18n';
 import enUS from '@arco-design/web-react/es/locale/en-US'; // 英文
@@ -21,6 +22,7 @@ import jaJP from '@arco-design/web-react/es/locale/ja-JP'; // 日文
 import { ConfigProvider } from '@arco-design/web-react';
 import HOC from './utils/HOC';
 import { useTranslation } from 'react-i18next';
+import { ThemeProvider } from './themes';
 const root = createRoot(document.getElementById('root'));
 
 const Config: React.FC<PropsWithChildren> = (props) => {
@@ -39,4 +41,5 @@ const Config: React.FC<PropsWithChildren> = (props) => {
   );
 };
 
-root.render(React.createElement(HOC(Config)(Main)));
+// Wrap app with Config (locale/theme) and the new ThemeProvider
+root.render(React.createElement(HOC.Wrapper(Config, ThemeProvider)(Main)));
