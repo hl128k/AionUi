@@ -96,21 +96,27 @@ const Guid: React.FC = () => {
     const useModel = await ConfigStorage.get('gemini.defaultModel');
     const defaultModel = modelList.find((m) => m.model.includes(useModel)) || modelList[0];
     if (!defaultModel) return;
-    setCurrentModel({ ...defaultModel, useModel: defaultModel.model.find((m) => m == useModel) || defaultModel.model[0] });
+    setCurrentModel({
+      ...defaultModel,
+      useModel: defaultModel.model.find((m) => m == useModel) || defaultModel.model[0],
+    });
   };
   useEffect(() => {
     setDefaultModel();
   }, [modelList]);
   return (
     <div className='h-full flex-center flex-col px-100px'>
-      <p className='text-2xl font-semibold text-gray-900 mb-8'>{t('conversation.welcome.title')}</p>
-      <div className='w-full bg-white b-solid border border-#E5E6EB  rd-20px  focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] transition-all duration-200 overflow-hidden p-16px'>
+      <p className='text-2xl font-semibold text-gray-900 mb-8' data-i18n-key='conversation.welcome.title'>
+        {t('conversation.welcome.title')}
+      </p>
+      <div className='w-full rd-20px  focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] transition-all duration-200 overflow-hidden p-16px' data-app-style='o-workspace' data-i18n-key='input.container'>
         <Input.TextArea
           rows={5}
           placeholder={t('conversation.welcome.placeholder')}
           className='text-16px focus:b-none rounded-xl !bg-white !b-none !resize-none'
           value={input}
           onChange={(v) => setInput(v)}
+          data-i18n-key='conversation.welcome.input'
           onCompositionStartCapture={() => {
             isComposing.current = true;
           }}
@@ -154,7 +160,7 @@ const Guid: React.FC = () => {
               }
             >
               <span className='flex items-center gap-4px cursor-pointer lh-[1]'>
-                <Button type='secondary' shape='circle' icon={<Plus theme='outline' size='14' strokeWidth={2} fill='#333' />}></Button>
+                <Button type='secondary' shape='circle' icon={<Plus theme='outline' size='14' strokeWidth={2} fill='currentColor' />}></Button>
                 {files.length > 0 && (
                   <Tooltip className={'!max-w-max'} content={<span className='whitespace-break-spaces'>{files.join('\n')}</span>}>
                     <span>File({files.length})</span>
@@ -192,10 +198,12 @@ const Guid: React.FC = () => {
                 </Menu>
               }
             >
-              <Button shape='round'>{currentModel ? currentModel.useModel : 'Select Model'}</Button>
+              <Button shape='round' data-i18n-key='model.selector'>
+                {currentModel ? currentModel.useModel : 'Select Model'}
+              </Button>
             </Dropdown>
           </div>
-          <Button shape='circle' type='primary' loading={loading} disabled={!currentModel} icon={<ArrowUp theme='outline' size='14' fill='white' strokeWidth={2} />} onClick={sendMessageHandler} />
+          <Button shape='circle' type='primary' loading={loading} disabled={!currentModel} icon={<ArrowUp theme='outline' size='14' fill='white' strokeWidth={2} />} onClick={sendMessageHandler} data-i18n-key='button.send' />
         </div>
       </div>
     </div>

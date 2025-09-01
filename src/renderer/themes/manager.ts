@@ -6,6 +6,8 @@ const DEFAULT_THEME_ID = 'default';
 const DEFAULT_LIGHT_VARS: Record<string, string> = {
   '--color-bg-1': '#ffffff',
   '--color-text-1': 'rgba(0,0,0,0.9)',
+  '--color-border-1': '#e5e6eb',
+  '--color-fill-1': '#f2f3f5',
 };
 const DEFAULT_DARK_VARS: Record<string, string> = {
   '--color-bg-1': '#17171a',
@@ -15,7 +17,65 @@ const DEFAULT_DARK_VARS: Record<string, string> = {
 const DEFAULT_PACK: ThemePack = {
   id: DEFAULT_THEME_ID,
   name: '默认主题',
-  light: { variables: DEFAULT_LIGHT_VARS, arco: { primaryColor: '#4E5969' } },
+  light: {
+    variables: DEFAULT_LIGHT_VARS,
+    arco: { primaryColor: '#4E5969' },
+    codeHighlight: {
+      background: '#ffffff',
+      color: '#24292f',
+      headerBackground: '#f6f8fa',
+      headerColor: '#656d76',
+      lineNumberColor: '#8c959f',
+      selectedLineBackground: '#e7f1ff',
+      borderColor: '#d0d7de',
+      iconColor: '#656d76',
+      inlineCodeBackground: '#f6f8fa',
+      inlineCodeBorder: '#d0d7de',
+      keyword: '#cf222e',
+      string: '#0a3069',
+      comment: '#6e7781',
+      number: '#0550ae',
+      function: '#8250df',
+      variable: '#953800',
+      operator: '#cf222e',
+      type: '#0550ae',
+      constant: '#0550ae',
+      punctuation: '#24292f',
+      className: '#8250df',
+      property: '#0550ae',
+      tag: '#116329',
+      attr: '#8250df',
+    },
+    appStyles: {
+      // 侧栏整体（来自 layout.tsx 原 !bg-#f2f3f5）
+      'o-slider': { backgroundColor: '#f2f3f5' },
+      // 主区域背景（来自 ChatLayout 原 bg-#F9FAFB）
+      'o-main': { backgroundColor: '#F9FAFB' },
+      // Workspace 区块背景（Header/Sider 容器，来自 ChatLayout 原 !bg-#F7F8FA）
+      'o-workspace': { backgroundColor: '#F7F8FA' },
+      // 侧栏菜单项（来自多处 hover/bg 硬编码）
+      'o-slider-menu': {
+        backgroundColor: 'transparent',
+        hover: { backgroundColor: '#EBECF1' },
+        active: { backgroundColor: '#E5E7F0' },
+      },
+      // 设置/输入容器（来自 sendbox 原 bg-white + border-#E5E6EB）
+      'o-setting-group': { backgroundColor: '#ffffff', borderColor: '#E5E6EB', borderWidth: '1px', borderStyle: 'solid', borderRadius: '20px' },
+      // 提示消息（来自 MessageTips 原 bg-#f0f4ff）
+      'o-tips': { backgroundColor: '#f0f4ff' },
+      // 右侧消息气泡（来自 MessagetText 原 bg-#E9EFFF）
+      'o-message-right': { backgroundColor: '#E9EFFF' },
+      'o-message-left': {},
+      // 图标主色（来自多处 icon 默认 '#86909C'）
+      'o-icon-color': { color: '#86909C' },
+      // Diff header 背景（原 rgb(220,220,220)）
+      'o-diff-header': { backgroundColor: 'rgb(220,220,220)' },
+      'o-primary-color': {},
+      'o-chat-message-user': {},
+      'o-chat-message-assistant': {},
+      'o-chat-message-system': {},
+    },
+  },
   dark: { variables: DEFAULT_DARK_VARS, arco: { primaryColor: '#3491FA' } },
 };
 
@@ -48,8 +108,13 @@ export class ThemeManager {
   }
 
   setCurrentTheme(themeId: string) {
-    if (this.data.themes.some((t) => t.id === themeId)) {
+    const theme = this.data.themes.find((t) => t.id === themeId);
+    if (theme) {
       this.data.state.currentThemeId = themeId;
+      // 如果主题有默认模式，自动切换到默认模式
+      if (theme.defaultMode) {
+        this.data.state.mode = theme.defaultMode;
+      }
       this.persist();
     }
   }
@@ -85,6 +150,18 @@ export class ThemeManager {
 
   applyToDOM(root: HTMLElement = document.body) {
     const { pack, mode } = this.getCurrent();
+
+    // 先清除之前的 i18n 样式，避免样式残留
+    try {
+      // Lazy import to avoid circular deps
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { clearAllI18nStyles } = require('./i18n-style-mapper');
+      clearAllI18nStyles(root);
+    } catch (_err) {
+      // Ignore clearing errors
+      void 0;
+    }
+
     // Toggle arco dark
     if (mode === 'dark') root.setAttribute('arco-theme', 'dark');
     else root.removeAttribute('arco-theme');
@@ -92,6 +169,7 @@ export class ThemeManager {
     // Apply css variables
     const vars = mode === 'dark' ? pack.dark.variables : pack.light.variables;
     Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
+
     // Apply i18n key styles to annotated nodes
     try {
       // Lazy import to avoid circular deps

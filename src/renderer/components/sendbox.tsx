@@ -55,7 +55,7 @@ const SendBox: React.FC<{
 
   return (
     <div className={`mb-16px  ${className}`}>
-      <div className='p-16px b-#E5E6EB b bg-white b-solid rd-20px  focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] '>
+      <div className='p-16px b rd-20px  focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] ' data-app-style='o-setting-group'>
         {prefix}
         {context}
         <Input.TextArea

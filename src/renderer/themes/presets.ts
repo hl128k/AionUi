@@ -3,6 +3,7 @@ import type { ThemePack } from './types';
 export const PRESET_GITHUB_LIGHT: ThemePack = {
   id: 'github-light',
   name: 'GitHub Light',
+  defaultMode: 'light', // GitHub Light 默认明亮模式
   light: {
     variables: {
       '--color-bg-1': '#ffffff',
@@ -26,6 +27,7 @@ export const PRESET_GITHUB_LIGHT: ThemePack = {
 export const PRESET_VSCODE: ThemePack = {
   id: 'vscode',
   name: 'VS Code',
+  defaultMode: 'dark', // VS Code 默认暗黑模式
   light: {
     variables: {
       '--color-bg-1': '#ffffff',

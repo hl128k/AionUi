@@ -1,6 +1,8 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ConfigProvider } from '@arco-design/web-react';
 import { themeManager } from './manager';
+import { enableI18nStyleObserver } from './i18n-style-mapper';
+import { enableAppStyleObserver } from './app-style-applier';
 import type { ThemeMode, ThemePack } from './types';
 
 interface ThemeContextValue {
@@ -27,12 +29,29 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     return { themeId: pack.id, mode };
   });
 
-  // keep DOM in sync
+  // keep DOM in sync; respect theme.defaultMode when switching theme
+  const prevThemeIdRef = useRef<string>(themeId);
   useEffect(() => {
+    const themeChanged = prevThemeIdRef.current !== themeId;
+    const theme = themeManager.getAll().find((t) => t.id === themeId);
+    const effectiveMode = themeChanged && theme?.defaultMode ? theme.defaultMode : mode;
+
     themeManager.setCurrentTheme(themeId);
-    themeManager.setMode(mode);
+    themeManager.setMode(effectiveMode);
     themeManager.applyToDOM(document.body);
+
+    if (effectiveMode !== mode) {
+      // sync react state so UI reflects default mode on theme switch
+      setState((s) => ({ ...s, mode: effectiveMode }));
+    }
+    prevThemeIdRef.current = themeId;
   }, [themeId, mode]);
+
+  // Enable i18n style observer on mount
+  useEffect(() => {
+    enableI18nStyleObserver(document.body);
+    enableAppStyleObserver(document.body);
+  }, []);
 
   const list = useMemo(() => themeManager.getAll(), [themeId, mode]);
 
@@ -58,7 +77,19 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) =
 
   return (
     <ConfigProvider theme={arcoTheme}>
-      <ThemeContext.Provider value={{ themeId, mode, setMode: setModeCb, setTheme: setThemeCb, list, exportTheme, importTheme }}>{children}</ThemeContext.Provider>
+      <ThemeContext.Provider
+        value={{
+          themeId,
+          mode,
+          setMode: setModeCb,
+          setTheme: setThemeCb,
+          list,
+          exportTheme,
+          importTheme,
+        }}
+      >
+        {children}
+      </ThemeContext.Provider>
     </ConfigProvider>
   );
 };

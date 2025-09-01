@@ -40,10 +40,16 @@ const logicRender = <T, F>(condition: boolean, trueComponent: T, falseComponent?
   return condition ? trueComponent : falseComponent;
 };
 
-function CodeBlock(props: any) {
+interface CodeBlockProps {
+  children: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+function CodeBlock(props: CodeBlockProps) {
   const [fold, setFlow] = useState(false);
   return useMemo(() => {
-    const { children, className, node, hiddenCodeCopyButton, ...rest } = props;
+    const { children, className, ...rest } = props;
     const match = /language-(\w+)/.exec(className || '');
     const language = match?.[1] || 'text';
     if (!String(children).includes('\n')) {
@@ -52,12 +58,12 @@ function CodeBlock(props: any) {
           {...rest}
           className={className}
           style={{
-            backgroundColor: '#f1f1f1',
+            backgroundColor: 'var(--color-fill-1)',
             padding: '2px 4px',
             margin: '0 4px',
             borderRadius: '4px',
             border: '1px solid',
-            borderColor: '#ddd',
+            borderColor: 'var(--color-border-1)',
           }}
         >
           {children}
@@ -72,7 +78,7 @@ function CodeBlock(props: any) {
             justifyContent: 'space-between',
             width: '100%',
             alignItems: 'center',
-            backgroundColor: '#dcdcdc', // "rgb(50, 50, 50)",
+            backgroundColor: 'var(--color-border-1)', // "rgb(50, 50, 50)",
             borderTopLeftRadius: '0.3rem',
             borderTopRightRadius: '0.3rem',
             borderBottomLeftRadius: '0',
@@ -161,13 +167,13 @@ const createInitStyle = () => {
     border-collapse: collapse;  /* 表格边框合并为单一边框 */
     th{
       padding: 8px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--color-border-1);
       background-color: #f5f5f5;
       font-weight: bold;
     }
     td{
         padding: 8px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--color-border-1);
         min-width: 120px;
     }
   }`;
@@ -178,7 +184,7 @@ const ShadowView = ({ children }: { children: React.ReactNode }) => {
   const [root, setRoot] = useState(null);
   return (
     <div
-      ref={(el: any) => {
+      ref={(el: HTMLDivElement | null) => {
         if (!el || el.__init__shadow) return;
         el.__init__shadow = true;
         const shadowRoot = el.attachShadow({ mode: 'open' });
@@ -208,8 +214,8 @@ const MarkdownView: React.FC<{
           remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]}
           rehypePlugins={[rehypeKatex]}
           components={{
-            code: (props: any) => CodeBlock({ ...props, codeStyle, hiddenCodeCopyButton }),
-            a: ({ node, ...props }) => (
+            code: (props: CodeBlockProps) => CodeBlock({ ...props, codeStyle, hiddenCodeCopyButton }),
+            a: ({ ...props }) => (
               <a
                 {...props}
                 target='_blank'
@@ -226,7 +232,7 @@ const MarkdownView: React.FC<{
                 }}
               />
             ),
-            table: ({ node, ...props }) => (
+            table: ({ ...props }) => (
               <div style={{ overflowX: 'auto', maxWidth: 'calc(100vw - 32px)' }}>
                 <table
                   {...props}
@@ -239,7 +245,7 @@ const MarkdownView: React.FC<{
                 />
               </div>
             ),
-            td: ({ node, ...props }) => (
+            td: ({ ...props }) => (
               <td
                 {...props}
                 style={{

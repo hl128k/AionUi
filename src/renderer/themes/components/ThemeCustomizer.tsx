@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Grid, Input } from '@arco-design/web-react';
+import { Form, Grid, Input } from '@arco-design/web-react';
 import { useTheme } from '../provider';
 import { THEME_VARIABLE_KEYS, FRIENDLY_LABELS } from '../variables';
 import { themeManager } from '../manager';
@@ -23,7 +23,7 @@ const ThemeCustomizer: React.FC = () => {
   const onChange = (key: string, value: string) => {
     const next = { ...localVars, [key]: value };
     setLocalVars(next);
-    const updated = { ...pack } as any;
+    const updated = { ...pack } as typeof pack;
     if (mode === 'dark') updated.dark = { ...updated.dark, variables: next };
     else updated.light = { ...updated.light, variables: next };
     themeManager.upsertTheme(updated);
@@ -31,7 +31,10 @@ const ThemeCustomizer: React.FC = () => {
   };
 
   return (
-    <Card title={`主题变量（${themeId}/${mode}）`} bordered={false} style={{ width: '100%' }}>
+    <div>
+      <div style={{ marginBottom: '16px', fontSize: '14px', color: 'var(--color-text-3)' }}>
+        当前主题：{themeId} / {mode === 'dark' ? '暗黑模式' : '明亮模式'}
+      </div>
       <Form layout='vertical' style={{ width: '100%' }}>
         <Row gutter={12} style={{ width: '100%' }}>
           {THEME_VARIABLE_KEYS.map((k) => (
@@ -43,7 +46,7 @@ const ThemeCustomizer: React.FC = () => {
           ))}
         </Row>
       </Form>
-    </Card>
+    </div>
   );
 };
 

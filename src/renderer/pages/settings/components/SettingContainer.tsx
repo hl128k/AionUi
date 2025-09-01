@@ -7,7 +7,7 @@ const SettingContainer: React.FC<{
   footer?: React.ReactNode;
 }> = (props) => {
   return (
-    <Card title={props.title} className={'m-50px'}>
+    <Card title={props.title} className={'m-50px'} data-app-style='o-setting-group'>
       {props.children}
       {props.footer && <Divider></Divider>}
       {props.footer}

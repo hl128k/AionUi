@@ -13,7 +13,7 @@ import { Outlet } from 'react-router-dom';
 
 const useDebug = () => {
   const [count, setCount] = useState(0);
-  const timer = useRef<any>(null);
+  const timer = useRef<NodeJS.Timeout | null>(null);
   const onClick = () => {
     const open = () => {
       ipcBridge.application.openDevTools.invoke();
@@ -50,17 +50,19 @@ const Layout: React.FC<{
         collapsedWidth={64}
         collapsed={collapsed}
         width={250}
-        className={classNames('!bg-#f2f3f5', {
+        data-app-style='o-slider'
+        className={classNames('', {
           collapsed: collapsed,
         })}
       >
         <ArcoLayout.Header
+          data-app-style='o-slider'
           className={classNames('flex items-center justify-start p-16px gap-12px pl-20px', {
             'cursor-pointer group ': collapsed,
           })}
         >
           <div
-            className={classNames('bg-#000 shrink-0 size-40px relative rd-0.5rem ', {
+            className={classNames('shrink-0 size-40px relative rd-0.5rem ', {
               '!size-24px': collapsed,
             })}
             onClick={onClick}
@@ -78,10 +80,10 @@ const Layout: React.FC<{
             </svg>
           </div>
           <div className=' flex-1 text-20px collapsed-hidden font-bold'>AionUi</div>
-          <MenuFold className='cursor-pointer !collapsed-hidden flex' theme='outline' size='24' fill='#86909C' strokeWidth={3} onClick={() => setCollapsed(true)} />
+          <MenuFold className='cursor-pointer !collapsed-hidden flex' theme='outline' size='24' fill='currentColor' strokeWidth={3} onClick={() => setCollapsed(true)} />
           {collapsed && (
-            <div onClick={() => setCollapsed(false)} className='group-hover:opacity-100 absolute bg-#f2f3f5 left-8px top-7px transition-all duration-150 p-10px opacity-0'>
-              <MenuUnfold className='cursor-pointer flex' size='24' fill='#86909C' strokeWidth={3} />
+            <div onClick={() => setCollapsed(false)} className='group-hover:opacity-100 absolute left-8px top-7px transition-all duration-150 p-10px opacity-0' data-app-style='o-slider-menu'>
+              <MenuUnfold className='cursor-pointer flex' size='24' fill='currentColor' strokeWidth={3} />
             </div>
           )}
         </ArcoLayout.Header>
