@@ -68,6 +68,11 @@ const DEFAULT_PACK: ThemePack = {
       'o-message-left': {},
       // 图标主色（来自多处 icon 默认 '#86909C'）
       'o-icon-color': { color: '#86909C' },
+      // Logo颜色配置
+      'o-logo': {
+        color: '#4E5969', // Logo主色，与主题主色保持一致
+        backgroundColor: 'transparent', // Logo容器背景色
+      },
       // Diff header 背景（原 rgb(220,220,220)）
       'o-diff-header': { backgroundColor: 'rgb(220,220,220)' },
       'o-primary-color': {},
@@ -76,7 +81,17 @@ const DEFAULT_PACK: ThemePack = {
       'o-chat-message-system': {},
     },
   },
-  dark: { variables: DEFAULT_DARK_VARS, arco: { primaryColor: '#3491FA' } },
+  dark: {
+    variables: DEFAULT_DARK_VARS,
+    arco: { primaryColor: '#3491FA' },
+    appStyles: {
+      // Logo颜色配置 - 深色模式
+      'o-logo': {
+        color: '#3491FA', // Logo主色，与深色主题主色保持一致
+        backgroundColor: 'transparent', // Logo容器背景色
+      },
+    },
+  },
 };
 
 export class ThemeManager {
