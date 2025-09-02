@@ -20,6 +20,7 @@ const PanelRoute: React.FC<{ layout: React.ReactNode }> = (props) => {
           <Route path='/settings/system' element={<SystemSettings />} />
           <Route path='/settings/theme' element={<ThemeCenter />} />
           <Route path='/settings/about' element={<About />} />
+          <Route path='/settings/tools' element={<ToolsSettings />} />
           <Route path='/settings' element={<Navigate to='/settings/gemini' />}></Route>
         </Route>
       </Routes>

@@ -26,6 +26,7 @@ const useGeminiMessage = (conversation_id: string) => {
     description: '',
     subject: '',
   });
+
   useEffect(() => {
     return ipcBridge.geminiConversation.responseStream.on(async (message) => {
       if (conversation_id !== message.conversation_id) {
@@ -123,7 +124,7 @@ const GeminiSendBox: React.FC<{
     if (!model?.useModel) return;
     const msg_id = uuid();
     if (atPath.length || uploadFile.length) {
-      message = uploadFile.map((p) => '@' + p.split('/').pop()).join(' ') + ' ' + atPath.map((p) => '@' + p).join(' ') + ' ' + message;
+      message = uploadFile.map((p) => '@' + p.split(/[\\/]/).pop()).join(' ') + ' ' + atPath.map((p) => '@' + p).join(' ') + ' ' + message;
     }
     addMessage(
       {

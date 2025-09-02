@@ -5,9 +5,10 @@
  */
 
 import { ipcBridge } from '@/common';
-import type { IModel, TModelWithConversation } from '@/common/storage';
+import type { IModel as IProvider, TModelWithConversation } from '@/common/storage';
 import { ConfigStorage } from '@/common/storage';
 import { uuid } from '@/common/utils';
+import { hasSpecificModelCapability } from '@/renderer/utils/modelCapabilities';
 import { geminiModeList } from '@/renderer/hooks/useModeModeList';
 import { Button, Dropdown, Input, Menu, Tooltip } from '@arco-design/web-react';
 import { ArrowUp, Plus } from '@icon-park/react';
@@ -15,6 +16,52 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
+
+/**
+ * 缓存Provider的可用模型列表，避免重复计算
+ */
+const availableModelsCache = new Map<string, string[]>();
+
+/**
+ * 获取提供商下所有可用的主力模型（带缓存）
+ * @param provider - 提供商配置
+ * @returns 可用的主力模型名称数组
+ */
+const getAvailableModels = (provider: IProvider): string[] => {
+  // 生成缓存键，包含模型列表以检测变化
+  const cacheKey = `${provider.id}-${provider.name}-${(provider.model || []).join(',')}`;
+
+  // 检查缓存
+  if (availableModelsCache.has(cacheKey)) {
+    return availableModelsCache.get(cacheKey)!;
+  }
+
+  // 计算可用模型
+  const result: string[] = [];
+  for (const modelName of provider.model || []) {
+    const functionCalling = hasSpecificModelCapability(provider, modelName, 'function_calling');
+    const excluded = hasSpecificModelCapability(provider, modelName, 'excludeFromPrimary');
+
+    if ((functionCalling === true || functionCalling === undefined) && excluded !== true) {
+      result.push(modelName);
+    }
+  }
+
+  // 缓存结果
+  availableModelsCache.set(cacheKey, result);
+  return result;
+};
+
+/**
+ * 检查提供商是否有可用的主力对话模型（高效版本）
+ * @param provider - 提供商配置
+ * @returns true 表示提供商有可用模型，false 表示无可用模型
+ */
+const hasAvailableModels = (provider: IProvider): boolean => {
+  // 直接使用缓存的结果，避免重复计算
+  const availableModels = getAvailableModels(provider);
+  return availableModels.length > 0;
+};
 
 const useModelList = () => {
   const geminiConfig = useSWR('gemini.config', () => {
@@ -32,18 +79,25 @@ const useModelList = () => {
   });
 
   return useMemo(() => {
+    let allProviders: IProvider[] = [];
+
     if (isGoogleAuth) {
-      const geminiModel: IModel = {
+      const geminiProvider: IProvider = {
         id: uuid(),
         name: 'Gemini Google Auth',
         platform: 'gemini-with-google-auth',
         baseUrl: '',
         apiKey: '',
         model: geminiModeList.map((v) => v.value),
+        capabilities: [{ type: 'text' }, { type: 'vision' }, { type: 'function_calling' }],
       };
-      return [geminiModel, ...(modelConfig || [])];
+      allProviders = [geminiProvider, ...(modelConfig || [])];
+    } else {
+      allProviders = modelConfig || [];
     }
-    return modelConfig || [];
+
+    // 过滤出有可用主力模型的提供商
+    return allProviders.filter(hasAvailableModels);
   }, [isGoogleAuth, modelConfig]);
 };
 
@@ -74,13 +128,16 @@ const Guid: React.FC = () => {
       input:
         files.length > 0
           ? files
-              .map((v) => v.split('/').pop())
+              .map((v) => v.split(/[\\/]/).pop() || '')
               .map((v) => `@${v}`)
-              .join(' ') + input
+              .join(' ') +
+            ' ' +
+            input
           : input,
       conversation_id: conversation.id,
       msg_id: uuid(),
     });
+
     navigate(`/conversation/${conversation.id}`);
   };
   const sendMessageHandler = () => {
@@ -95,6 +152,7 @@ const Guid: React.FC = () => {
   const setDefaultModel = async () => {
     const useModel = await ConfigStorage.get('gemini.defaultModel');
     const defaultModel = modelList.find((m) => m.model.includes(useModel)) || modelList[0];
+    console.log('----->defaultModel', useModel);
     if (!defaultModel) return;
     setCurrentModel({
       ...defaultModel,
@@ -179,7 +237,8 @@ const Guid: React.FC = () => {
               trigger='hover'
               droplist={
                 <Menu selectedKeys={currentModel ? [currentModel.id + currentModel.useModel] : []}>
-                  {(modelList || []).map((platform) => {
+                  {(modelList || []).map((provider) => {
+                    const availableModels = getAvailableModels(provider);
                     return (
                       <Menu.ItemGroup title={platform.name} key={platform.id}>
                         {platform.model.map((model) => {

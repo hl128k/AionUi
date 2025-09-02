@@ -76,8 +76,12 @@ export async function loadHierarchicalGeminiMemory(currentWorkingDirectory: stri
   return loadServerHierarchicalMemory(effectiveCwd, includeDirectoriesToReadGemini, debugMode, fileService, extensionContextFilePaths, memoryImportFormat, fileFilteringOptions, settings.memoryDiscoveryMaxDirs);
 }
 
-export async function loadCliConfig({ workspace, settings, extensions, sessionId, proxy, model }: { workspace: string; settings: Settings; extensions: Extension[]; sessionId: string; proxy?: string; model?: string }): Promise<Config> {
-  const argv: Partial<CliArgs> = {};
+import type { ConversationToolConfig } from './tools/conversation-tool-config';
+
+export async function loadCliConfig({ workspace, settings, extensions, sessionId, proxy, model, conversationToolConfig, yoloMode }: { workspace: string; settings: Settings; extensions: Extension[]; sessionId: string; proxy?: string; model?: string; conversationToolConfig: ConversationToolConfig; yoloMode?: boolean }): Promise<Config> {
+  const argv: Partial<CliArgs> = {
+    yolo: yoloMode,
+  };
 
   const debugMode = argv.debug || [process.env.DEBUG, process.env.DEBUG_MODE].some((v) => v === 'true' || v === '1') || false;
   const memoryImportFormat = settings.memoryImportFormat || 'tree';
@@ -122,7 +126,11 @@ export async function loadCliConfig({ workspace, settings, extensions, sessionId
   const { memoryContent, fileCount } = await loadHierarchicalGeminiMemory(workspace, [], debugMode, fileService, settings, extensionContextFilePaths, memoryImportFormat, fileFiltering);
 
   let mcpServers = mergeMcpServers(settings, activeExtensions);
-  const excludeTools = mergeExcludeTools(settings, activeExtensions);
+
+  // 使用对话级别的工具配置
+  const toolConfig = conversationToolConfig.getConfig();
+
+  const excludeTools = mergeExcludeTools(settings, activeExtensions).concat(toolConfig.excludeTools);
   const blockedMcpServers: Array<{ name: string; extensionName: string }> = [];
 
   if (!argv.allowedMcpServerNames) {

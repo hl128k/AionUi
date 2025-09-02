@@ -59,6 +59,7 @@
     "googleLogout": "Logout",
     "openai": "OpenAI",
     "proxyConfig": "Proxy",
+    "yoloMode": "YOLO (Auto Allow)",
     "geminiBaseUrl": "Gemini API Base URL",
     "cacheDir": "Cache Directory",
     "workDir": "Work Directory",
@@ -85,7 +86,11 @@
     "restartConfirm": "Changes will restart the application. Continue?",
     "theme": "Theme",
     "lightMode": "Light",
-    "darkMode": "Dark"
+    "darkMode": "Dark",
+    "tools": "Tools Settings",
+    "imageGenerationModel": "Image Model",
+    "imageGenerationGuide": "Free Image Model Setup Guide",
+    "noAvailable": "No available image models, please configure first."
   },
   "theme": {
     "management": "Theme Management",
@@ -223,6 +228,7 @@
     "conversationInProgress": "A conversation is currently in progress...",
     "confirm": "Confirm",
     "canceledExecution": "Execution canceled",
-    "openLinkFailed": "Failed to open link"
+    "openLinkFailed": "Failed to open link",
+    "imageGenerationModelDetected": "Image model detected, image tool has been automatically enabled. Default model: {{platform}}:{{model}}"
   }
 }

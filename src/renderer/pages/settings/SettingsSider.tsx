@@ -23,6 +23,11 @@ const SettingsSider: React.FC = () => {
         path: 'model',
       },
       {
+        label: t('settings.tools'),
+        icon: <Toolkit />,
+        path: 'tools',
+      },
+      {
         label: t('settings.system'),
         icon: <System />,
         path: 'system',
