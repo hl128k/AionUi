@@ -83,6 +83,8 @@ const DEFAULT_PACK: ThemePack = {
         hover: { backgroundColor: '#F2F3F5' },
         active: { backgroundColor: '#F2F3F5' },
       },
+      // Sendbox stop indicator dot
+      'o-sendbox-dot': { backgroundColor: '#86909C' },
       'o-primary-color': {},
       'o-chat-message-user': {},
       'o-chat-message-assistant': {},

@@ -92,7 +92,7 @@ const Layout: React.FC<{
         </ArcoLayout.Header>
         <ArcoLayout.Content className='h-[calc(100%-72px-16px)] p-8px layout-sider-content'>{sider}</ArcoLayout.Content>
       </ArcoLayout.Sider>
-      <ArcoLayout.Content className={'bg-#F9FAFB layout-content'}>
+      <ArcoLayout.Content className={'layout-content'} data-app-style='o-main'>
         <Outlet></Outlet>
         {contextHolder}
       </ArcoLayout.Content>

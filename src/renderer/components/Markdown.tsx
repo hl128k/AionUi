@@ -119,7 +119,8 @@ function CodeBlock(props: CodeBlockProps) {
               borderTopRightRadius: '0',
               borderBottomLeftRadius: '0.3rem',
               borderBottomRightRadius: '0.3rem',
-              border: 'none',
+              border: '1px solid',
+              borderColor: codeTokens.borderColor || 'var(--color-border-1)',
               background: codeTokens.background,
               color: codeTokens.color,
             }}
@@ -178,7 +179,7 @@ const createInitStyle = (currentTheme = 'light') => {
     th{
       padding: 8px;
       border: 1px solid var(--color-border-1);
-      background-color: #f5f5f5;
+      background-color: var(--color-fill-1);
       font-weight: bold;
     }
     td{
@@ -206,7 +207,7 @@ const createInitStyle = (currentTheme = 'light') => {
     currentTheme === 'dark'
       ? `
     img, video, canvas, svg {
-      filter: invert(1) hue-rotate(180deg);
+
     }
   `
       : ''
@@ -293,7 +294,7 @@ const MarkdownView: React.FC<{
                   style={{
                     ...props.style,
                     borderCollapse: 'collapse',
-                    border: '1px solid #ddd',
+                    border: '1px solid var(--color-border-1)',
                     minWidth: '100%',
                   }}
                 />
@@ -305,7 +306,7 @@ const MarkdownView: React.FC<{
                 style={{
                   ...props.style,
                   padding: '8px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--color-border-1)',
                   minWidth: '120px',
                 }}
               />

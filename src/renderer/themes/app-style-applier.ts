@@ -130,6 +130,13 @@ export function applyAppStyles(root: HTMLElement = document.body) {
     const key = el.getAttribute('data-app-style') || '';
     const def = app[key as keyof typeof app];
     if (def) applyOne(el, def as AppStyleDefinition, key);
+    else {
+      // No style defined for this key in current mode: clear any previous inline styles
+      clearInlineStyles(el);
+      const old = cleanupMap.get(el);
+      if (old) old();
+      cleanupMap.delete(el as any);
+    }
   });
 }
 

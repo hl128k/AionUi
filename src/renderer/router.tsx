@@ -7,6 +7,7 @@ import GeminiSettings from './pages/settings/GeminiSettings';
 import ModeSettings from './pages/settings/ModeSettings';
 import SystemSettings from './pages/settings/SystemSettings';
 import ThemeCenter from './pages/theme/ThemeCenter';
+import ToolsSettings from './pages/settings/ToolsSettings';
 const PanelRoute: React.FC<{ layout: React.ReactNode }> = (props) => {
   return (
     <HashRouter>

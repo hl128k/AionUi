@@ -91,7 +91,7 @@ const SendBox: React.FC<{
               //   size={18}
               //   onClick={stopHandler}
               // />
-              <Button shape='circle' type='secondary' className='bg-animate' icon={<div className='mx-auto size-12px bg-#86909C' onClick={stopHandler}></div>}></Button>
+              <Button shape='circle' type='secondary' className='bg-animate' icon={<div className='mx-auto size-12px' data-app-style='o-sendbox-dot' onClick={stopHandler}></div>}></Button>
             ) : (
               <Button
                 shape='circle'

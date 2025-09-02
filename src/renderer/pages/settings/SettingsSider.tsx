@@ -1,5 +1,5 @@
 import FlexFullContainer from '@/renderer/components/FlexFullContainer';
-import { Gemini, Info, LinkCloud, System, Theme } from '@icon-park/react';
+import { Gemini, Info, LinkCloud, System, Theme, Toolkit } from '@icon-park/react';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

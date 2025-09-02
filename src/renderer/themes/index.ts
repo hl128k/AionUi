@@ -3,4 +3,4 @@ export { ThemeProvider, useTheme } from './provider';
 export type { ThemeMode, ThemePack, ThemeTokens } from './types';
 export { default as ThemeSelector } from './components/ThemeSelector';
 // 保留代码高亮 hook（复用简单主题实现）
-export { useCodeHighlightTheme } from './simple-theme/useCodeHighlightTheme';
+// simple-theme removed; code highlight theming handled by ThemeProvider tokens

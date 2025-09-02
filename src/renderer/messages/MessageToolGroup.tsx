@@ -228,7 +228,7 @@ const MessageToolGroup: React.FC<IMessageToolGroupProps> = ({ message }) => {
                   {name}
                   {status === 'Canceled' ? `(${t('messages.canceledExecution')})` : ''}
                 </Tag>
-                <div className='text-12px color-#666'>{description}</div>
+                <div className='text-12px text-[var(--color-text-2)]'>{description}</div>
                 <div className='overflow-auto'>
                   <ToolResultDisplay content={content}></ToolResultDisplay>
                 </div>
