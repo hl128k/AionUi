@@ -46,6 +46,8 @@ const SettingsSider: React.FC = () => {
         return (
           <div
             key={item.path}
+            data-app-style='o-slider-menu'
+            data-app-state={isSelected ? 'active' : undefined}
             className={classNames(' px-12px py-8px rd-8px flex justify-start items-center group cursor-pointer relative overflow-hidden group shrink-0 conversation-item [&.conversation-item+&.conversation-item]:mt-2px', {
               '': isSelected,
             })}

@@ -63,7 +63,7 @@ function applyMerged(el: HTMLElement, base: AppStyleDefinition, overlay?: I18nKe
   setInlineStyles(el, merged);
 }
 
-function applyOne(el: HTMLElement, def: AppStyleDefinition) {
+function applyOne(el: HTMLElement, def: AppStyleDefinition, key?: string) {
   // clear previous listeners
   const old = cleanupMap.get(el);
   if (old) old();
@@ -72,7 +72,10 @@ function applyOne(el: HTMLElement, def: AppStyleDefinition) {
   if (hasPersistentActive(el)) applyMerged(el, def, def.active);
   else applyMerged(el, def);
 
-  // listeners for hover/active/focus
+  // Do not attach interactive listeners on containers that host form controls to avoid IME/input issues
+  const isFormContainer = key === 'o-setting-group' || key === 'o-textarea' || !!el.querySelector('input, textarea, select, [contenteditable=true]');
+
+  // listeners for hover/active/focus (skip for form containers)
   const enter = () => {
     if (hasPersistentActive(el)) applyMerged(el, def, def.active);
     else applyMerged(el, def, def.hover);
@@ -97,20 +100,24 @@ function applyOne(el: HTMLElement, def: AppStyleDefinition) {
     else applyMerged(el, def);
   };
 
-  el.addEventListener('mouseenter', enter);
-  el.addEventListener('mouseleave', leave);
-  el.addEventListener('mousedown', down);
-  el.addEventListener('mouseup', up);
-  el.addEventListener('focus', focus, true);
-  el.addEventListener('blur', blur, true);
+  if (!isFormContainer) {
+    // mouse listeners are passive to avoid interfering with input behavior
+    el.addEventListener('mouseenter', enter, { passive: true } as AddEventListenerOptions);
+    el.addEventListener('mouseleave', leave, { passive: true } as AddEventListenerOptions);
+    el.addEventListener('mousedown', down, { passive: true } as AddEventListenerOptions);
+    el.addEventListener('mouseup', up, { passive: true } as AddEventListenerOptions);
+    // use focusin/focusout (bubble) instead of capture focus/blur to avoid intercepting focus handling
+    el.addEventListener('focusin', focus);
+    el.addEventListener('focusout', blur);
+  }
 
   cleanupMap.set(el, () => {
-    el.removeEventListener('mouseenter', enter);
-    el.removeEventListener('mouseleave', leave);
-    el.removeEventListener('mousedown', down);
-    el.removeEventListener('mouseup', up);
-    el.removeEventListener('focus', focus, true);
-    el.removeEventListener('blur', blur, true);
+    el.removeEventListener('mouseenter', enter as any);
+    el.removeEventListener('mouseleave', leave as any);
+    el.removeEventListener('mousedown', down as any);
+    el.removeEventListener('mouseup', up as any);
+    el.removeEventListener('focusin', focus as any);
+    el.removeEventListener('focusout', blur as any);
   });
 }
 
@@ -122,7 +129,7 @@ export function applyAppStyles(root: HTMLElement = document.body) {
   nodes.forEach((el) => {
     const key = el.getAttribute('data-app-style') || '';
     const def = app[key as keyof typeof app];
-    if (def) applyOne(el, def as AppStyleDefinition);
+    if (def) applyOne(el, def as AppStyleDefinition, key);
   });
 }
 

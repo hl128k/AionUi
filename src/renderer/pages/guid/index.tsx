@@ -110,27 +110,29 @@ const Guid: React.FC = () => {
         {t('conversation.welcome.title')}
       </p>
       <div className='w-full rd-20px  focus-within:shadow-[0px_2px_20px_rgba(77,60,234,0.1)] transition-all duration-200 overflow-hidden p-16px' data-app-style='o-workspace' data-i18n-key='input.container'>
-        <Input.TextArea
-          rows={5}
-          placeholder={t('conversation.welcome.placeholder')}
-          className='text-16px focus:b-none rounded-xl !bg-white !b-none !resize-none'
-          value={input}
-          onChange={(v) => setInput(v)}
-          data-i18n-key='conversation.welcome.input'
-          onCompositionStartCapture={() => {
-            isComposing.current = true;
-          }}
-          onCompositionEndCapture={() => {
-            isComposing.current = false;
-          }}
-          onKeyDown={(e) => {
-            if (isComposing.current) return;
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              sendMessageHandler();
-            }
-          }}
-        ></Input.TextArea>
+        <div data-app-style='o-textarea'>
+          <Input.TextArea
+            rows={5}
+            placeholder={t('conversation.welcome.placeholder')}
+            className='text-16px focus:b-none rounded-xl !b-none !resize-none'
+            value={input}
+            onChange={(v) => setInput(v)}
+            data-i18n-key='conversation.welcome.input'
+            onCompositionStartCapture={() => {
+              isComposing.current = true;
+            }}
+            onCompositionEndCapture={() => {
+              isComposing.current = false;
+            }}
+            onKeyDown={(e) => {
+              if (isComposing.current) return;
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessageHandler();
+              }
+            }}
+          ></Input.TextArea>
+        </div>
         <div className='flex items-center justify-between '>
           <div className='flex items-center gap-10px'>
             <Dropdown
@@ -180,18 +182,21 @@ const Guid: React.FC = () => {
                   {(modelList || []).map((platform) => {
                     return (
                       <Menu.ItemGroup title={platform.name} key={platform.id}>
-                        {platform.model.map((model) => (
-                          <Menu.Item
-                            key={platform.id + model}
-                            className={currentModel?.id + currentModel?.useModel === platform.id + model ? '!bg-#f2f3f5' : ''}
-                            // key={platform.name + platform.platform + platform.baseUrl + platform.apiKey+model}
-                            onClick={() => {
-                              setCurrentModel({ ...platform, useModel: model });
-                            }}
-                          >
-                            {model}
-                          </Menu.Item>
-                        ))}
+                        {platform.model.map((model) => {
+                          const isActive = currentModel?.id + currentModel?.useModel === platform.id + model;
+                          return (
+                            <Menu.Item
+                              key={platform.id + model}
+                              data-app-style='o-dropdown-item'
+                              data-app-state={isActive ? 'active' : undefined}
+                              onClick={() => {
+                                setCurrentModel({ ...platform, useModel: model });
+                              }}
+                            >
+                              {model}
+                            </Menu.Item>
+                          );
+                        })}
                       </Menu.ItemGroup>
                     );
                   })}

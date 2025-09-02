@@ -64,6 +64,14 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     if (ok) {
       // Re-apply to DOM so variable/i18n style changes take effect immediately
       themeManager.applyToDOM(document.body);
+      // ensure appStyles applied after variables
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { applyAppStyles } = require('./app-style-applier');
+        applyAppStyles(document.body);
+      } catch (error) {
+        console.warn('Failed to apply app styles:', error);
+      }
       // trigger context consumers if needed
       setState((s) => ({ ...s }));
     }

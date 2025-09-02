@@ -70,11 +70,19 @@ const DEFAULT_PACK: ThemePack = {
       'o-icon-color': { color: '#86909C' },
       // Logo颜色配置
       'o-logo': {
-        color: '#4E5969', // Logo主色，与主题主色保持一致
-        backgroundColor: 'transparent', // Logo容器背景色
+        color: '#fff', // Logo主色，与主题主色保持一致
+        backgroundColor: '#000', // Logo容器背景色
       },
       // Diff header 背景（原 rgb(220,220,220)）
       'o-diff-header': { backgroundColor: 'rgb(220,220,220)' },
+      // TextArea background (replace component-level !bg-white) + no border
+      'o-textarea': { backgroundColor: '#ffffff', borderWidth: '0', borderStyle: 'none' },
+      // Dropdown menu item (model selector) hover/active backgrounds
+      'o-dropdown-item': {
+        backgroundColor: 'transparent',
+        hover: { backgroundColor: '#F2F3F5' },
+        active: { backgroundColor: '#F2F3F5' },
+      },
       'o-primary-color': {},
       'o-chat-message-user': {},
       'o-chat-message-assistant': {},
@@ -87,8 +95,8 @@ const DEFAULT_PACK: ThemePack = {
     appStyles: {
       // Logo颜色配置 - 深色模式
       'o-logo': {
-        color: '#3491FA', // Logo主色，与深色主题主色保持一致
-        backgroundColor: 'transparent', // Logo容器背景色
+        color: '#000', // Logo主色，与深色主题主色保持一致
+        backgroundColor: '#fff', // Logo容器背景色
       },
     },
   },
@@ -193,6 +201,17 @@ export class ThemeManager {
       applyI18nStyles(root);
     } catch (_err) {
       // Ignore styling application errors to avoid breaking theme switch
+      void 0;
+    }
+
+    // Apply appStyles to nodes with data-app-style
+    try {
+      // Lazy import to avoid circular deps
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { applyAppStyles } = require('./app-style-applier');
+      applyAppStyles(root);
+    } catch (_err) {
+      // Ignore to avoid interrupting theme switch
       void 0;
     }
   }

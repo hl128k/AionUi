@@ -19,6 +19,7 @@ import { theme } from '@office-ai/platform';
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useTheme as useThemeCtx } from '@/renderer/themes/provider';
 
 const formatCode = (code: string) => {
   const content = String(code).replace(/\n$/, '');
@@ -46,24 +47,31 @@ interface CodeBlockProps {
   [key: string]: unknown;
 }
 
+import { themeManager } from '@/renderer/themes/manager';
+
 function CodeBlock(props: CodeBlockProps) {
   const [fold, setFlow] = useState(false);
+  // 订阅主题上下文，确保主题变更时代码高亮重新渲染
+  const { themeId, mode } = useThemeCtx();
   return useMemo(() => {
     const { children, className, ...rest } = props;
     const match = /language-(\w+)/.exec(className || '');
     const language = match?.[1] || 'text';
+    // load theme code highlight tokens
+    const { pack } = themeManager.getCurrent();
+    const codeTokens = (mode === 'dark' ? pack.dark : pack.light).codeHighlight || {};
     if (!String(children).includes('\n')) {
       return (
         <code
           {...rest}
           className={className}
           style={{
-            backgroundColor: 'var(--color-fill-1)',
+            backgroundColor: codeTokens.inlineCodeBackground || 'var(--color-fill-1)',
             padding: '2px 4px',
             margin: '0 4px',
             borderRadius: '4px',
             border: '1px solid',
-            borderColor: 'var(--color-border-1)',
+            borderColor: codeTokens.inlineCodeBorder || 'var(--color-border-1)',
           }}
         >
           {children}
@@ -78,7 +86,7 @@ function CodeBlock(props: CodeBlockProps) {
             justifyContent: 'space-between',
             width: '100%',
             alignItems: 'center',
-            backgroundColor: 'var(--color-border-1)', // "rgb(50, 50, 50)",
+            backgroundColor: codeTokens.headerBackground || 'var(--color-border-1)',
             borderTopLeftRadius: '0.3rem',
             borderTopRightRadius: '0.3rem',
             borderBottomLeftRadius: '0',
@@ -88,7 +96,7 @@ function CodeBlock(props: CodeBlockProps) {
           <span
             style={{
               textDecoration: 'none',
-              color: 'gray',
+              color: codeTokens.headerColor || 'gray',
               padding: '2px',
               margin: '2px 10px 0 10px',
             }}
@@ -112,12 +120,14 @@ function CodeBlock(props: CodeBlockProps) {
               borderBottomLeftRadius: '0.3rem',
               borderBottomRightRadius: '0.3rem',
               border: 'none',
+              background: codeTokens.background,
+              color: codeTokens.color,
             }}
           />
         )}
       </div>
     );
-  }, [props]);
+  }, [props, themeId, mode]);
 }
 
 const createInitStyle = () => {
